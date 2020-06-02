@@ -1,31 +1,39 @@
 package javagraphicstemplate;
 
-public class Obstacle 
+public class Obstacle extends MyAppClass
 {
 	// Instance Variables
 	private int x;
 	private int y;
 	private boolean isFlat;
+	private boolean isRound;
 	// Constructor 
-	Obstacle(int x, int y, boolean isFlat)
+	Obstacle(int x, int y, boolean isFlat, boolean isRound)
 	{
 		this.x = x;
 		this.y = y;
 		this.isFlat = isFlat;
+		this.isRound = isRound;
 	}
 	
 	// Returning X Coordinate
-	private int getX() 
+	public int getX() 
 	{
-		return this.x;
+		return x;
 	}
 	// Returning Y Coordinate
-	private int getY() 
+	public int getY() 
 	{
-		return this.y;
+		return y;
 	}
 	// If the Obstacle is Flat, True is returned, if the Obstacle is Slanted, False is returned
-	private boolean isFlat() {
-		return this.isFlat;
+	public boolean isFlat() 
+	{
+		return isFlat;
+	}
+	// If the obstacle is round, True is returned, meaning the obstacle is a ball
+	public boolean isRound() 
+	{
+		return isRound;
 	}
 }
