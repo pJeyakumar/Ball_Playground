@@ -33,6 +33,9 @@ public class MyAppClass extends JPanel
     
     // Obstacle Object Variables
     int intObstacleType = 0;
+    Obstacle[] stationaryObstacles = new Obstacle[5]; // Array holding all stationary obstacles, MAX 5 for now
+    int intObstacleCounter = 0;
+    Obstacle[] ballObstacle = new Obstacle[1]; // Array holding the ball obstacle, MAX 1 at all times
     
     public class MyKeyListener implements KeyListener
     {
@@ -60,7 +63,22 @@ public class MyAppClass extends JPanel
     		// Resetting Screen
     		else if(e.getKeyCode() == 'R') 
     		{
-    			
+	    		me.fillRect(0,600,1000,10);
+                me.setFont(new Font("Serif",Font.PLAIN,18));
+	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 625);
+	    		me.drawString("Press 2 to Equip Slanted Rectangle", 0, 650);
+	    		me.drawString("Press B to Equip Ball", 0, 675);
+	    		me.drawString("Press R to Reset the Screen", 575, 690);
+	    		
+	    		// Resetting Obstacle counter
+	    		intObstacleCounter = 0; 
+	    		// Resetting ball Obstacle array
+	    		ballObstacle[0] = null;
+	    		// Restting stationary Obstacle array
+	    		for(int i = 0; i < stationaryObstacles.length; i++) 
+	    		{
+	    			stationaryObstacles[i] = null;
+	    		}
     		}
     	}
     	// Class that checks which keys keys are released, to differentiate pressed keys and keys being pressed
@@ -71,35 +89,41 @@ public class MyAppClass extends JPanel
     }
     public class MyMouseListener implements MouseListener
     {
-    	public void mousePressed(MouseEvent e)
+    	public void mousePressed(MouseEvent e) 
     	{
     		// Storing mouse pointer's X and Y coordinates
     		mouseX = e.getX();
     		mouseY = e.getY();
     		
-    		// Create a FLAT obstacle at mouse coordinates
-    		if(intObstacleType == 1) 
+    		// Ensuring that the number of obstacles created doesnt go past 5 (Array out of bound error will occur if we go over 5)
+    		if(intObstacleCounter < 5) 
     		{
+    			// Create a FLAT obstacle at mouse coordinates
+    			if(intObstacleType == 1) 
+    			{
+    				stationaryObstacles[intObstacleCounter] = new Obstacle(mouseX, mouseY,true, false);
+    				intObstacleCounter++;
+    			}
+    			// Create a SLANTED obstacle at mouse coordinates
+    			else if(intObstacleType == 2)
+    			{
+    				stationaryObstacles[intObstacleCounter] = new Obstacle(mouseX, mouseY,false, false);
+    				intObstacleCounter++;
+    			}
+    			// Drop Ball Object at mouse coordinates
+    			else if(intObstacleType == 3)
+    			{
+    				ballObstacle[1] = new Obstacle(mouseX, mouseY, false, true);
+    				intObstacleCounter++;
+    			}
+    			// Obstacle type has not been chosen, remind user to choose obstacle type before placing
+    			else if(intObstacleType == 0) 
+    			{
     			
-    		}
-    		// Create a SLANTED obstacle at mouse coordinates
-    		else if(intObstacleType == 2)
-    		{
-    			
-    		}
-    		// Drop Ball Object at mouse coordinates
-    		else if(intObstacleType == 3)
-    		{
-    			
-    		}
-    		// Obstacle type has not been chosen, remind user to choose obstacle type before placing
-    		else if(intObstacleType == 0) 
-    		{
-    			
+    			}
     		}
     	}
     	public void mouseClicked(MouseEvent e) {
-    		
     	}
     	public void mouseEntered(MouseEvent e) {
     		
@@ -109,7 +133,7 @@ public class MyAppClass extends JPanel
     	}
     	public void mouseReleased(MouseEvent e) 
     	{
-    		
+    		System.out.println("clickReleased");
     	}
     }
 	        	MyAppClass()
@@ -117,6 +141,8 @@ public class MyAppClass extends JPanel
 	        		// maze 2 dimensional array	
 	        		timer.schedule(new MyTimer(), 0, 1);
 	        		KeyListener listener = new MyKeyListener();
+	        		MouseListener mListener = new MyMouseListener();
+	        		addMouseListener(mListener);
 	        		addKeyListener(listener);
 	                setFocusable(true);
 
@@ -166,7 +192,17 @@ public class MyAppClass extends JPanel
 	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 625);
 	    		me.drawString("Press 2 to Equip Slanted Rectangle", 0, 650);
 	    		me.drawString("Press B to Equip Ball", 0, 675);
-	    		me.drawString("Press R to Reset the Screen", 575, 690);
+	    		me.drawString("Press R to Reset the Screen", 575, 690);	    		
+	    	}
+	    	// Instructions Menu
+	    	if(intScreen == 1) 
+	    	{
+	    		
+	    	}
+	    	for(int i = 0; i < stationaryObstacles.length; i++) 
+	    	{
+	    		if(stationaryObstacles[i] != null)
+	    			me.drawRect(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
 	    	}
 	    }
 }
