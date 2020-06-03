@@ -5,15 +5,15 @@ public class Obstacle extends MyAppClass
 	// Instance Variables
 	private int x;
 	private int y;
-	private boolean isFlat;
+	private int angle;
 	private boolean isRound;
 	// Constructor 
-	Obstacle(int x, int y, boolean isFlat, boolean isRound)
+	Obstacle(int x, int y, boolean isRound, int angle)
 	{
 		this.x = x;
 		this.y = y;
-		this.isFlat = isFlat;
 		this.isRound = isRound;
+		this.angle = angle;
 	}
 	
 	// Returning X Coordinate
@@ -26,14 +26,14 @@ public class Obstacle extends MyAppClass
 	{
 		return y;
 	}
-	// If the Obstacle is Flat, True is returned, if the Obstacle is Slanted, False is returned
-	public boolean isFlat() 
-	{
-		return isFlat;
-	}
 	// If the obstacle is round, True is returned, meaning the obstacle is a ball
 	public boolean isRound() 
 	{
 		return isRound;
+	}
+	// Returns the angle of the obstacle
+	public int getAngle() 
+	{
+		return angle;
 	}
 }
