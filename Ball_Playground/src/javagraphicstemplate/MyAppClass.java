@@ -63,7 +63,9 @@ public class MyAppClass extends JPanel
     		// Resetting Screen
     		else if(e.getKeyCode() == 'R') 
     		{
+    			// Clear screen
 	    		me.fillRect(0,600,1000,10);
+	    		// Add options
                 me.setFont(new Font("Serif",Font.PLAIN,18));
 	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 625);
 	    		me.drawString("Press 2 to Equip Slanted Rectangle", 0, 650);
@@ -72,9 +74,12 @@ public class MyAppClass extends JPanel
 	    		
 	    		// Resetting Obstacle counter
 	    		intObstacleCounter = 0; 
+	    		intObstacleType = 0;
+	    		
 	    		// Resetting ball Obstacle array
 	    		ballObstacle[0] = null;
-	    		// Restting stationary Obstacle array
+	    		
+	    		// Resetting stationary Obstacle array
 	    		for(int i = 0; i < stationaryObstacles.length; i++) 
 	    		{
 	    			stationaryObstacles[i] = null;
@@ -89,6 +94,8 @@ public class MyAppClass extends JPanel
     }
     public class MyMouseListener implements MouseListener
     {
+    	// Class that checks when the mouse is pressed, remembers the mouse cursor's coordinates and draws an obstacle (of the selected type)
+    	// at those coordinates.
     	public void mousePressed(MouseEvent e) 
     	{
     		// Storing mouse pointer's X and Y coordinates
@@ -101,19 +108,29 @@ public class MyAppClass extends JPanel
     			// Create a FLAT obstacle at mouse coordinates
     			if(intObstacleType == 1) 
     			{
-    				stationaryObstacles[intObstacleCounter] = new Obstacle(mouseX, mouseY,true, false);
+    				stationaryObstacles[intObstacleCounter] = new Obstacle(mouseX, mouseY, false, 0);
     				intObstacleCounter++;
     			}
-    			// Create a SLANTED obstacle at mouse coordinates
+    			// If Slanted Obstacle option has been chosen
     			else if(intObstacleType == 2)
     			{
-    				stationaryObstacles[intObstacleCounter] = new Obstacle(mouseX, mouseY,false, false);
-    				intObstacleCounter++;
+    				for(int i = 0; i < stationaryObstacles.length; i++) 
+    				{
+    					// Ensuring the object we're looking at is not NULL
+    					if(stationaryObstacles[i] != null) 
+    					{
+    						// Checking the mouse coordinates are within the borders of any drawn obstacles
+    						if(mouseX >= stationaryObstacles[i].getX() && mouseX <= (stationaryObstacles[i].getX() + 150) && mouseY >= stationaryObstacles[i].getY() && mouseY <= (stationaryObstacles[i].getY() + 50) ) 
+    						{
+    							System.out.println("Tilt.");
+    						}
+    					}
+    				}
     			}
     			// Drop Ball Object at mouse coordinates
     			else if(intObstacleType == 3)
     			{
-    				ballObstacle[1] = new Obstacle(mouseX, mouseY, false, true);
+    				ballObstacle[0] = new Obstacle(mouseX, mouseY, true, 0);
     				intObstacleCounter++;
     			}
     			// Obstacle type has not been chosen, remind user to choose obstacle type before placing
@@ -182,27 +199,34 @@ public class MyAppClass extends JPanel
 	     }
     public void renderOffScreen( Graphics g) 
 		{ 
-	    	me = g;
+    		me = g;
 	    	// Main Screen
 	    	if(intScreen == 0) 
 	    	{
-	    		// Creating Bottom Menu Bar [Instructions on what keys do what]
+	    		// Clearing Interface
 	    		me.fillRect(0,600,1000,10);
+	    		// Creating Bottom Menu Bar [Instructions on what keys do what]
                 me.setFont(new Font("Serif",Font.PLAIN,18));
 	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 625);
 	    		me.drawString("Press 2 to Equip Slanted Rectangle", 0, 650);
 	    		me.drawString("Press B to Equip Ball", 0, 675);
 	    		me.drawString("Press R to Reset the Screen", 575, 690);	    		
 	    	}
-	    	// Instructions Menu
+	    	// Instructions Menu TBM 
 	    	if(intScreen == 1) 
 	    	{
-	    		
+	    	
 	    	}
+	    	// For loop that goes through the array storing all STATIONARY obstacles
 	    	for(int i = 0; i < stationaryObstacles.length; i++) 
 	    	{
-	    		if(stationaryObstacles[i] != null)
+	    		// Ensuring the array index is NOT NULL
+	    		if(stationaryObstacles[i] != null) 
+	    		{
+	    			// Drawing the rectangle using the objects X and Y coordinates
 	    			me.drawRect(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
+	    				
+	    		}
 	    	}
 	    }
 }
