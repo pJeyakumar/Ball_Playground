@@ -10,6 +10,8 @@ import java.io.*;
 import java.util.Timer;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+
 import sun.audio.*;
 import java.net.URL;
 import java.util.*;
@@ -50,7 +52,7 @@ public class MyAppClass extends JPanel
     		{
     			intObstacleType = 1;
     		}
-    		// Slanted Rectangle Object is Equipped
+    		// Ability to Tilt Rectangle is Selected
     		else if(e.getKeyCode() == '2') 
     		{
     			intObstacleType = 2;
@@ -68,7 +70,7 @@ public class MyAppClass extends JPanel
 	    		// Add options
                 me.setFont(new Font("Serif",Font.PLAIN,18));
 	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 625);
-	    		me.drawString("Press 2 to Equip Slanted Rectangle", 0, 650);
+	    		me.drawString("Press 2 to Tilt Rectangle", 0, 650);
 	    		me.drawString("Press B to Equip Ball", 0, 675);
 	    		me.drawString("Press R to Reset the Screen", 575, 690);
 	    		
@@ -122,7 +124,8 @@ public class MyAppClass extends JPanel
     						// Checking the mouse coordinates are within the borders of any drawn obstacles
     						if(mouseX >= stationaryObstacles[i].getX() && mouseX <= (stationaryObstacles[i].getX() + 150) && mouseY >= stationaryObstacles[i].getY() && mouseY <= (stationaryObstacles[i].getY() + 50) ) 
     						{
-    							System.out.println("Tilt.");
+    							// Adjust angle of obstacle (add 45 rads to existing angle)
+    							stationaryObstacles[i].setAngle(((stationaryObstacles[i].getAngle() + 45) % 360));
     						}
     					}
     				}
@@ -208,7 +211,7 @@ public class MyAppClass extends JPanel
 	    		// Creating Bottom Menu Bar [Instructions on what keys do what]
                 me.setFont(new Font("Serif",Font.PLAIN,18));
 	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 625);
-	    		me.drawString("Press 2 to Equip Slanted Rectangle", 0, 650);
+	    		me.drawString("Press 2 to Tilt Rectangle", 0, 650);
 	    		me.drawString("Press B to Equip Ball", 0, 675);
 	    		me.drawString("Press R to Reset the Screen", 575, 690);	    		
 	    	}
@@ -223,9 +226,22 @@ public class MyAppClass extends JPanel
 	    		// Ensuring the array index is NOT NULL
 	    		if(stationaryObstacles[i] != null) 
 	    		{
-	    			// Drawing the rectangle using the objects X and Y coordinates
-	    			me.drawRect(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
-	    				
+	    			// If the angle is 0 or 180, we can simply draw a flat rectangle
+	    			if(stationaryObstacles[i].getAngle() == 0 || stationaryObstacles[i].getAngle() == 180)
+	    			{
+	    				// Drawing the rectangle using the objects X and Y coordinates
+	    				me.fillRect(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
+	    			}
+	    			// Otherwise, we need to rotate the rectangle to its given angle
+	    			else 
+	    			{
+	    				Graphics2D g2d = (Graphics2D)g;
+	    				AffineTransform transform = new AffineTransform();
+	    				Rectangle rect = new Rectangle(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
+	    				transform.rotate(Math.toRadians(stationaryObstacles[i].getAngle()), rect.getX() + 75, rect.getY() + 25);
+	    				Shape transformed = transform.createTransformedShape(rect);
+	    				g2d.fill(transformed);
+	    			}
 	    		}
 	    	}
 	    }
