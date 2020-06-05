@@ -5,7 +5,7 @@ public class Obstacle extends MyAppClass
 	// Instance Variables
 	private int x;
 	private int y;
-	private int angle;
+	private double angle;
 	private boolean isRound;
 	// Constructor 
 	Obstacle(int x, int y, boolean isRound, int angle)
@@ -32,8 +32,12 @@ public class Obstacle extends MyAppClass
 		return isRound;
 	}
 	// Returns the angle of the obstacle
-	public int getAngle() 
+	public double getAngle() 
 	{
 		return angle;
+	}
+	public void setAngle(double angle)
+	{
+		this.angle = angle;
 	}
 }
