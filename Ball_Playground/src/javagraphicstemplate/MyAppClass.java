@@ -47,45 +47,68 @@ public class MyAppClass extends JPanel
     	// Class that checks which key is being pressed, code will be executed depending on which key was pressed.
     	public void keyPressed(KeyEvent e)
     	{
-    		// Flat Rectangle Object is Equipped
-    		if(e.getKeyCode() == '1') 
+    		// Options on the Main Screen
+    		if(intScreen == 0) 
     		{
-    			intObstacleType = 1;
-    		}
-    		// Ability to Tilt Rectangle is Selected
-    		else if(e.getKeyCode() == '2') 
-    		{
-    			intObstacleType = 2;
-    		}
-    		// Ball Object is Equipped
-    		else if(e.getKeyCode() == 'B') 
-    		{
-    			intObstacleType = 3;
-    		}
-    		// Resetting Screen
-    		else if(e.getKeyCode() == 'R') 
-    		{
-    			// Clear screen
-	    		me.fillRect(0,600,1000,10);
-	    		// Add options
-                me.setFont(new Font("Serif",Font.PLAIN,18));
-	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 625);
-	    		me.drawString("Press 2 to Tilt Rectangle", 0, 650);
-	    		me.drawString("Press B to Equip Ball", 0, 675);
-	    		me.drawString("Press R to Reset the Screen", 575, 690);
+    			// Flat Rectangle Object is Equipped
+    			if(e.getKeyCode() == '1') 
+    			{
+    				intObstacleType = 1;
+    			}
+    			
+    			// Ability to Tilt Rectangle is Selected
+    			else if(e.getKeyCode() == '2') 
+    			{
+    				intObstacleType = 2;
+    			}
+    			
+    			// Ball Object is Equipped
+    			else if(e.getKeyCode() == 'B') 
+    			{
+    				intObstacleType = 3;
+    			}
+    			
+    			// Instruction Menu
+    			else if(e.getKeyCode() == 'I') 
+    			{
+    				intScreen = 1;
+    			}
+    			
+    			// Resetting Screen
+    			else if(e.getKeyCode() == 'R') 
+    			{
+    				// Clear screen
+    				me.fillRect(0,600,1000,10);
+    				// Add options
+    				me.setFont(new Font("Serif",Font.PLAIN,18));
+    				me.drawString("Press 1 to Equip Flat Rectangle", 0, 625);
+    				me.drawString("Press 2 to Tilt Rectangle", 0, 650);
+    				me.drawString("Press B to Equip Ball", 0, 675);
+    				me.drawString("Press R to Reset the Screen", 575, 690);
 	    		
-	    		// Resetting Obstacle counter
-	    		intObstacleCounter = 0; 
-	    		intObstacleType = 0;
+    				// Resetting Obstacle counter
+    				intObstacleCounter = 0; 
+    				intObstacleType = 0;
 	    		
-	    		// Resetting ball Obstacle array
-	    		ballObstacle[0] = null;
+    				// Resetting ball Obstacle array
+    				ballObstacle[0] = null;
 	    		
-	    		// Resetting stationary Obstacle array
-	    		for(int i = 0; i < stationaryObstacles.length; i++) 
-	    		{
-	    			stationaryObstacles[i] = null;
-	    		}
+    				// Resetting stationary Obstacle array
+    				for(int i = 0; i < stationaryObstacles.length; i++) 
+    				{
+    					stationaryObstacles[i] = null;
+    				}
+    			}
+    		}
+    		// Options on the Instruction Screen
+    		if(intScreen == 1)
+    		{
+    			// Exit Instruction Menu and Return to Main Screen
+    			if(e.getKeyCode() == 'E') 
+    			{
+    				intScreen = 0;
+    			}
+    				
     		}
     	}
     	// Class that checks which keys keys are released, to differentiate pressed keys and keys being pressed
@@ -133,8 +156,7 @@ public class MyAppClass extends JPanel
     			// Drop Ball Object at mouse coordinates
     			else if(intObstacleType == 3)
     			{
-    				ballObstacle[0] = new Obstacle(mouseX, mouseY, true, 0);
-    				intObstacleCounter++;
+    				ballObstacle[0] = new Obstacle(mouseX, mouseY, true, 0);	
     			}
     			// Obstacle type has not been chosen, remind user to choose obstacle type before placing
     			else if(intObstacleType == 0) 
@@ -206,20 +228,110 @@ public class MyAppClass extends JPanel
 	    	// Main Screen
 	    	if(intScreen == 0) 
 	    	{
+	    		JLabel txt = new JLabel();
 	    		// Clearing Interface
 	    		me.fillRect(0,600,1000,10);
 	    		// Creating Bottom Menu Bar [Instructions on what keys do what]
                 me.setFont(new Font("Serif",Font.PLAIN,18));
-	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 625);
-	    		me.drawString("Press 2 to Tilt Rectangle", 0, 650);
-	    		me.drawString("Press B to Equip Ball", 0, 675);
-	    		me.drawString("Press R to Reset the Screen", 575, 690);	    		
+	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 635);
+	    		me.drawString("Press 2 to Tilt Rectangle", 0, 660);
+	    		me.drawString("Press B to Equip Ball", 0, 685);
+	    		me.drawString("Press I to go to Instruction Menu", 536, 660);
+	    		me.drawString("Press R to Reset the Screen", 575, 690);	   
+	    		
+		    	// Notification that Flat Obstacle is selected
+		    	if(intObstacleType == 1) 
+		    	{
+		    		me.setColor(Color.blue);
+		    		me.setFont(new Font("Serif",Font.BOLD,24));
+		    		me.drawString("Flat Obstacle EQUIPPED", 230, 40);
+		    		me.setColor(Color.black);
+		    		
+		    	}
+		    	// Notification that Tilting mode is selected
+		    	else if(intObstacleType == 2) 
+		    	{
+		    		me.setColor(Color.red);
+		    		me.setFont(new Font("Serif",Font.BOLD,24));
+		    		me.drawString("Tilting Mode ACTIVATED", 230, 40);
+		    		me.setColor(Color.black);
+		    	}
+		    	// Notification that Ball is selected
+		    	else if(intObstacleType == 3) 
+		    	{
+		    		me.setColor(Color.green);
+		    		me.setFont(new Font("Serif",Font.BOLD,24));
+		    		me.drawString("Ball Object EQUIPPED", 230, 40);
+		    		me.setColor(Color.black);
+		    	}
+		    	// Notification if the user hasn't selected an option yet
+		    	else if(intObstacleType == 0) 
+		    	{
+		    		me.setColor(Color.magenta);
+		    		me.setFont(new Font("Serif",Font.BOLD,24));
+		    		me.drawString("No Options Currently SELECTED", 200, 40);
+		    		me.setColor(Color.black);
+		    	}
 	    	}
-	    	// Instructions Menu TBM 
+	    	
+	    	// Instructions Menu
 	    	if(intScreen == 1) 
 	    	{
-	    	
+	    		// Graphics and Rectangle declaration
+	    		Graphics2D g2d = (Graphics2D)g;
+				AffineTransform transform1 = new AffineTransform();
+				AffineTransform transform2 = new AffineTransform();
+				AffineTransform transform3 = new AffineTransform();
+				AffineTransform transform4 = new AffineTransform();
+	    		// Setting background of menu to gray
+	    		me.setColor(Color.gray);
+	    		me.fillRect(0,0,800,800);
+	    			    	
+	    		Obstacle iObstacle = new Obstacle(60,100,false,0);
+	    		
+	    		me.setColor(Color.white);
+	    		me.setFont(new Font("Serif", Font.BOLD, 16));
+	    		me.drawString("Here is an example of the DEFAULT obstacle", 60, 80);
+	    		me.setColor(Color.black);
+	    		me.fillRect(iObstacle.getX(), iObstacle.getY(), 150, 50);
+	    		
+	    		me.setColor(Color.white);
+	    		me.setFont(new Font("Serif", Font.BOLD, 16));
+	    		me.drawString("Here are the ANGLED obstacles that can be made", 60, 200);
+	    		me.setColor(Color.black);
+
+	    		iObstacle.setY(275);
+	    		iObstacle.setAngle((iObstacle.getAngle() + 45) % 360);
+	    		
+				Rectangle rect1 = new Rectangle(iObstacle.getX(), iObstacle.getY(), 150, 50);
+	    		transform1.rotate(Math.toRadians(iObstacle.getAngle()), iObstacle.getX() + 75, iObstacle.getY() + 25);
+				// Creating the transformed object
+				Shape transformed1 = transform1.createTransformedShape(rect1);
+				// Drawing our transformed object
+				g2d.fill(transformed1);
+				
+				iObstacle.setX(200);
+	    		iObstacle.setAngle((iObstacle.getAngle() + 45) % 360);
+				
+				Rectangle rect2 = new Rectangle(iObstacle.getX(), iObstacle.getY(), 150, 50);
+	    		transform2.rotate(Math.toRadians(iObstacle.getAngle()), iObstacle.getX() + 75, iObstacle.getY() + 25);
+				// Creating the transformed object
+				Shape transformed2 = transform2.createTransformedShape(rect2);
+				// Drawing our transformed object
+				g2d.fill(transformed2);
+				
+				iObstacle.setX(340);
+				iObstacle.setAngle((iObstacle.getAngle() + 45) % 360);
+				
+				Rectangle rect3 = new Rectangle(iObstacle.getX(), iObstacle.getY(), 150, 50);
+	    		transform3.rotate(Math.toRadians(iObstacle.getAngle()), iObstacle.getX() + 75, iObstacle.getY() + 25);
+				// Creating the transformed object
+				Shape transformed3 = transform3.createTransformedShape(rect3);
+				// Drawing our transformed object
+				g2d.fill(transformed3);
+				
 	    	}
+	    	
 	    	// For loop that goes through the array storing all STATIONARY obstacles
 	    	for(int i = 0; i < stationaryObstacles.length; i++) 
 	    	{
@@ -235,11 +347,16 @@ public class MyAppClass extends JPanel
 	    			// Otherwise, we need to rotate the rectangle to its given angle
 	    			else 
 	    			{
+	    				// 2D Graphics and AffineTransformation declarations
 	    				Graphics2D g2d = (Graphics2D)g;
 	    				AffineTransform transform = new AffineTransform();
+	    				// Creating a rectangle object using the obstacles information
 	    				Rectangle rect = new Rectangle(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
+	    				// Rotating the rectangle by the obstacles given angle around the CENTER of the rectangle
 	    				transform.rotate(Math.toRadians(stationaryObstacles[i].getAngle()), rect.getX() + 75, rect.getY() + 25);
+	    				// Creating the transformed object
 	    				Shape transformed = transform.createTransformedShape(rect);
+	    				// Drawing our transformed object
 	    				g2d.fill(transformed);
 	    			}
 	    		}
