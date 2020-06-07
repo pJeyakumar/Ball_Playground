@@ -15,7 +15,6 @@ public class Obstacle extends MyAppClass
 		this.isRound = isRound;
 		this.angle = angle;
 	}
-	
 	// Returning X Coordinate
 	public int getX() 
 	{
@@ -25,6 +24,16 @@ public class Obstacle extends MyAppClass
 	public int getY() 
 	{
 		return y;
+	}
+	// Set the x coordinate of the obstacle
+	public void setX(int x) 
+	{
+		this.x = x;
+	}
+	// Set the y coordinate of the obstacle
+	public void setY(int y) 
+	{
+		this.y = y;
 	}
 	// If the obstacle is round, True is returned, meaning the obstacle is a ball
 	public boolean isRound() 
@@ -36,6 +45,7 @@ public class Obstacle extends MyAppClass
 	{
 		return angle;
 	}
+	// Set the angle of the obstacle
 	public void setAngle(double angle)
 	{
 		this.angle = angle;
