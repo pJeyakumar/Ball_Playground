@@ -44,6 +44,7 @@ public class MyAppClass extends JPanel
     	public void keyTyped(KeyEvent e) 
     		{
     		}
+    	
     	// Class that checks which key is being pressed, code will be executed depending on which key was pressed.
     	public void keyPressed(KeyEvent e)
     	{
@@ -117,6 +118,7 @@ public class MyAppClass extends JPanel
 				System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
 			}
     }
+    
     public class MyMouseListener implements MouseListener
     {
     	// Class that checks when the mouse is pressed, remembers the mouse cursor's coordinates and draws an obstacle (of the selected type)
@@ -136,35 +138,31 @@ public class MyAppClass extends JPanel
     				stationaryObstacles[intObstacleCounter] = new Obstacle(mouseX, mouseY, false, 0);
     				intObstacleCounter++;
     			}
-    			// If Slanted Obstacle option has been chosen
-    			else if(intObstacleType == 2)
-    			{
-    				for(int i = 0; i < stationaryObstacles.length; i++) 
-    				{
-    					// Ensuring the object we're looking at is not NULL
-    					if(stationaryObstacles[i] != null) 
-    					{
-    						// Checking the mouse coordinates are within the borders of any drawn obstacles
-    						if(mouseX >= stationaryObstacles[i].getX() && mouseX <= (stationaryObstacles[i].getX() + 150) && mouseY >= stationaryObstacles[i].getY() && mouseY <= (stationaryObstacles[i].getY() + 50) ) 
-    						{
-    							// Adjust angle of obstacle (add 45 rads to existing angle)
-    							stationaryObstacles[i].setAngle(((stationaryObstacles[i].getAngle() + 45) % 360));
-    						}
-    					}
-    				}
-    			}
-    			// Drop Ball Object at mouse coordinates
-    			else if(intObstacleType == 3)
-    			{
-    				ballObstacle[0] = new Obstacle(mouseX, mouseY, true, 0);	
-    			}
-    			// Obstacle type has not been chosen, remind user to choose obstacle type before placing
-    			else if(intObstacleType == 0) 
-    			{
-    			
-    			}
     		}
+			// If TILTING option has been chosen
+    		if(intObstacleType == 2)
+			{
+				for(int i = 0; i < stationaryObstacles.length; i++) 
+				{
+					// Ensuring the object we're looking at is not NULL
+					if(stationaryObstacles[i] != null) 
+					{
+						// Checking the mouse coordinates are within the borders of any drawn obstacles
+						if(mouseX >= stationaryObstacles[i].getX() && mouseX <= (stationaryObstacles[i].getX() + 150) && mouseY >= stationaryObstacles[i].getY() && mouseY <= (stationaryObstacles[i].getY() + 50) ) 
+						{
+							// Adjust angle of obstacle (add 45 rads to existing angle)
+							stationaryObstacles[i].setAngle(((stationaryObstacles[i].getAngle() + 45) % 360));
+						}
+					}
+				}
+			}
+			// Drop Ball Object at mouse coordinates
+			else if(intObstacleType == 3)
+			{
+				ballObstacle[0] = new Obstacle(mouseX, mouseY, true, 0);	
+			}
     	}
+    	
     	public void mouseClicked(MouseEvent e) {
     	}
     	public void mouseEntered(MouseEvent e) {
@@ -178,17 +176,18 @@ public class MyAppClass extends JPanel
     		System.out.println("clickReleased");
     	}
     }
-	        	MyAppClass()
-	        	{
-	        		// maze 2 dimensional array	
-	        		timer.schedule(new MyTimer(), 0, 1);
-	        		KeyListener listener = new MyKeyListener();
-	        		MouseListener mListener = new MyMouseListener();
-	        		addMouseListener(mListener);
-	        		addKeyListener(listener);
-	                setFocusable(true);
-
-	        	}
+    
+    MyAppClass()
+		{
+	    	// maze 2 dimensional array	
+	        timer.schedule(new MyTimer(), 0, 1);
+	        KeyListener listener = new MyKeyListener();
+	        MouseListener mListener = new MyMouseListener();
+	        addMouseListener(mListener);
+	        addKeyListener(listener);
+	        setFocusable(true);
+	    }
+	        	
     private class MyTimer extends java.util.TimerTask 
 		{ 
 	    	public void run()    
@@ -207,14 +206,17 @@ public class MyAppClass extends JPanel
 	                }  
 	            } // End of Run 
 		} 
+    
     public void paint(Graphics g) 
 		{
 	    	final Dimension d = getSize(); 
+	    	
 	        if (offScreenImage == null) 
 	        	{    
 	            	// Double-buffer: clear the offscreen image.                 
 	                offScreenImage = createImage(d.width, d.height);    
-	            }         
+	        	}       
+	        
 	        offScreenGraphics  = offScreenImage.getGraphics();      
 	        offScreenGraphics.setColor(Color.white); 
 	        offScreenGraphics.fillRect(0, 0, d.width, d.height) ;      
@@ -222,13 +224,13 @@ public class MyAppClass extends JPanel
 	        renderOffScreen(offScreenImage.getGraphics());  
 	        g.drawImage(offScreenImage, 0, 0, null);
 	     }
+    
     public void renderOffScreen( Graphics g) 
 		{ 
     		me = g;
 	    	// Main Screen
 	    	if(intScreen == 0) 
 	    	{
-	    		JLabel txt = new JLabel();
 	    		// Clearing Interface
 	    		me.fillRect(0,600,1000,10);
 	    		// Creating Bottom Menu Bar [Instructions on what keys do what]
@@ -246,8 +248,8 @@ public class MyAppClass extends JPanel
 		    		me.setFont(new Font("Serif",Font.BOLD,24));
 		    		me.drawString("Flat Obstacle EQUIPPED", 230, 40);
 		    		me.setColor(Color.black);
-		    		
 		    	}
+		    	
 		    	// Notification that Tilting mode is selected
 		    	else if(intObstacleType == 2) 
 		    	{
@@ -256,6 +258,7 @@ public class MyAppClass extends JPanel
 		    		me.drawString("Tilting Mode ACTIVATED", 230, 40);
 		    		me.setColor(Color.black);
 		    	}
+		    	
 		    	// Notification that Ball is selected
 		    	else if(intObstacleType == 3) 
 		    	{
@@ -264,6 +267,7 @@ public class MyAppClass extends JPanel
 		    		me.drawString("Ball Object EQUIPPED", 230, 40);
 		    		me.setColor(Color.black);
 		    	}
+		    	
 		    	// Notification if the user hasn't selected an option yet
 		    	else if(intObstacleType == 0) 
 		    	{
@@ -271,6 +275,40 @@ public class MyAppClass extends JPanel
 		    		me.setFont(new Font("Serif",Font.BOLD,24));
 		    		me.drawString("No Options Currently SELECTED", 200, 40);
 		    		me.setColor(Color.black);
+		    	}
+		    	
+		    	// For loop that goes through the array storing all STATIONARY obstacles
+		    	for(int i = 0; i < stationaryObstacles.length; i++) 
+		    	{
+		    		// Ensuring the array index is NOT NULL
+		    		if(stationaryObstacles[i] != null) 
+		    		{
+		    			// If the angle is 0 or 180, we can simply draw a flat rectangle
+		    			if(stationaryObstacles[i].getAngle() == 0 || stationaryObstacles[i].getAngle() == 180)
+		    			{
+		    				// Drawing the rectangle using the objects X and Y coordinates
+		    				me.fillRect(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
+		    			}
+		    			// Otherwise, we need to rotate the rectangle to its given angle
+		    			else 
+		    			{
+		    				// 2D Graphics and AffineTransformation declarations
+		    				Graphics2D g2d = (Graphics2D)g;
+		    				AffineTransform transform = new AffineTransform();
+		    				
+		    				// Creating a rectangle object using the obstacles information
+		    				Rectangle rect = new Rectangle(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
+		    				
+		    				// Rotating the rectangle by the obstacles given angle around the CENTER of the rectangle
+		    				transform.rotate(Math.toRadians(stationaryObstacles[i].getAngle()), rect.getX() + 75, rect.getY() + 25);
+		    				
+		    				// Creating the transformed object
+		    				Shape transformed = transform.createTransformedShape(rect);
+		    				
+		    				// Drawing our transformed object
+		    				g2d.fill(transformed);
+		    			}
+		    		}
 		    	}
 	    	}
 	    	
@@ -282,24 +320,27 @@ public class MyAppClass extends JPanel
 				AffineTransform transform1 = new AffineTransform();
 				AffineTransform transform2 = new AffineTransform();
 				AffineTransform transform3 = new AffineTransform();
-				AffineTransform transform4 = new AffineTransform();
+				
 	    		// Setting background of menu to gray
 	    		me.setColor(Color.gray);
 	    		me.fillRect(0,0,800,800);
-	    			    	
+	    		// The Obstacle we will be using as an example
 	    		Obstacle iObstacle = new Obstacle(60,100,false,0);
 	    		
+	    		// Displaying the FLAT Version of the Obstacle we declared
 	    		me.setColor(Color.white);
 	    		me.setFont(new Font("Serif", Font.BOLD, 16));
 	    		me.drawString("Here is an example of the DEFAULT obstacle", 60, 80);
 	    		me.setColor(Color.black);
 	    		me.fillRect(iObstacle.getX(), iObstacle.getY(), 150, 50);
 	    		
+	    		// Displaying the various ANGLES of the Obstacle we declared
 	    		me.setColor(Color.white);
 	    		me.setFont(new Font("Serif", Font.BOLD, 16));
 	    		me.drawString("Here are the ANGLED obstacles that can be made", 60, 200);
 	    		me.setColor(Color.black);
-
+	    		
+	    		// 45 Degrees
 	    		iObstacle.setY(275);
 	    		iObstacle.setAngle((iObstacle.getAngle() + 45) % 360);
 	    		
@@ -310,6 +351,7 @@ public class MyAppClass extends JPanel
 				// Drawing our transformed object
 				g2d.fill(transformed1);
 				
+				// 90 Degrees
 				iObstacle.setX(200);
 	    		iObstacle.setAngle((iObstacle.getAngle() + 45) % 360);
 				
@@ -320,6 +362,7 @@ public class MyAppClass extends JPanel
 				// Drawing our transformed object
 				g2d.fill(transformed2);
 				
+				// 135 Degrees
 				iObstacle.setX(340);
 				iObstacle.setAngle((iObstacle.getAngle() + 45) % 360);
 				
@@ -329,37 +372,6 @@ public class MyAppClass extends JPanel
 				Shape transformed3 = transform3.createTransformedShape(rect3);
 				// Drawing our transformed object
 				g2d.fill(transformed3);
-				
-	    	}
-	    	
-	    	// For loop that goes through the array storing all STATIONARY obstacles
-	    	for(int i = 0; i < stationaryObstacles.length; i++) 
-	    	{
-	    		// Ensuring the array index is NOT NULL
-	    		if(stationaryObstacles[i] != null) 
-	    		{
-	    			// If the angle is 0 or 180, we can simply draw a flat rectangle
-	    			if(stationaryObstacles[i].getAngle() == 0 || stationaryObstacles[i].getAngle() == 180)
-	    			{
-	    				// Drawing the rectangle using the objects X and Y coordinates
-	    				me.fillRect(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
-	    			}
-	    			// Otherwise, we need to rotate the rectangle to its given angle
-	    			else 
-	    			{
-	    				// 2D Graphics and AffineTransformation declarations
-	    				Graphics2D g2d = (Graphics2D)g;
-	    				AffineTransform transform = new AffineTransform();
-	    				// Creating a rectangle object using the obstacles information
-	    				Rectangle rect = new Rectangle(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
-	    				// Rotating the rectangle by the obstacles given angle around the CENTER of the rectangle
-	    				transform.rotate(Math.toRadians(stationaryObstacles[i].getAngle()), rect.getX() + 75, rect.getY() + 25);
-	    				// Creating the transformed object
-	    				Shape transformed = transform.createTransformedShape(rect);
-	    				// Drawing our transformed object
-	    				g2d.fill(transformed);
-	    			}
-	    		}
 	    	}
 	    }
 }
