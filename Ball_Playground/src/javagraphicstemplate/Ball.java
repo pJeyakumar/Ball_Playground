@@ -12,7 +12,7 @@ public class Ball {
 	{
 		this.x = x;
 		this.y = y;
-		this.velx = 0;
+		this.velx = 2;
 		this.vely = 2;
 		this.radius = radius;
 	}
@@ -30,6 +30,11 @@ public class Ball {
 	public int getRadius()
 	{
 		return radius;
+	}
+	//get horizontal velocity
+	public int getVelx()
+	{
+		return velx;
 	}
 	//get vertical velocity
 	public int getVely()

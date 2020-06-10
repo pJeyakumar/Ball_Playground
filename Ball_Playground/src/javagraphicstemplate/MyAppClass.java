@@ -287,6 +287,7 @@ public class MyAppClass extends JPanel
 		    		{
 		    			me.fillOval(ballObstacle[0].getX(), ballObstacle[0].getY(), ballObstacle[0].getRadius(), ballObstacle[0].getRadius());		
 		    			ballObstacle[i].setY(ballObstacle[i].getY() + ballObstacle[i].getVely());
+		    			ballObstacle[i].setX(ballObstacle[i].getX() + ballObstacle[i].getVelx());
 		    		}
 		    		
 		    	}
