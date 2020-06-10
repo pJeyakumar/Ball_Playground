@@ -13,7 +13,7 @@ public class Ball {
 		this.x = x;
 		this.y = y;
 		this.velx = 0;
-		this.vely = 10;
+		this.vely = 2;
 		this.radius = radius;
 	}
 	// Returning X Coordinate
@@ -30,6 +30,11 @@ public class Ball {
 	public int getRadius()
 	{
 		return radius;
+	}
+	//get vertical velocity
+	public int getVely()
+	{
+		return vely;
 	}
 	// Set the x coordinate of the obstacle
 	public void setX(int x) 

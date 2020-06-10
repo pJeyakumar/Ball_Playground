@@ -159,7 +159,10 @@ public class MyAppClass extends JPanel
 			// Drop Ball Object at mouse coordinates
 			else if(intObstacleType == 3)
 			{
-				ballObstacle[0] = new Ball(mouseX, mouseY, 20);			
+				if (ballObstacle[0] == null)
+				{
+					ballObstacle[0] = new Ball(mouseX, mouseY, 20);		
+				}
 			}
     	}
     	
@@ -282,8 +285,10 @@ public class MyAppClass extends JPanel
 		    	{
 		    		if (ballObstacle[i] != null)
 		    		{
-		    			me.fillOval(ballObstacle[0].getX(), ballObstacle[0].getY(), ballObstacle[0].getRadius(), ballObstacle[0].getRadius());		    	
+		    			me.fillOval(ballObstacle[0].getX(), ballObstacle[0].getY(), ballObstacle[0].getRadius(), ballObstacle[0].getRadius());		
+		    			ballObstacle[i].setY(ballObstacle[i].getY() + ballObstacle[i].getVely());
 		    		}
+		    		
 		    	}
 		    	
 		    	// For loop that goes through the array storing all STATIONARY obstacles
