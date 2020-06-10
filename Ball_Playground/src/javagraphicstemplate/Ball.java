@@ -1,0 +1,44 @@
+package javagraphicstemplate;
+
+public class Ball {
+	private int x;
+	private int y;
+	private int radius;
+	private int velx;
+	private int vely;
+	
+	//Constructor
+	Ball(int x, int y, int radius)
+	{
+		this.x = x;
+		this.y = y;
+		this.velx = 0;
+		this.vely = 10;
+		this.radius = radius;
+	}
+	// Returning X Coordinate
+	public int getX() 
+	{
+		return x;
+	}
+	// Returning Y Coordinate
+	public int getY() 
+	{
+		return y;
+	}
+	//Return radius
+	public int getRadius()
+	{
+		return radius;
+	}
+	// Set the x coordinate of the obstacle
+	public void setX(int x) 
+	{
+		this.x = x;
+	}
+	// Set the y coordinate of the obstacle
+	public void setY(int y) 
+	{
+		this.y = y;
+	}	
+}

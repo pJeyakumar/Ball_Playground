@@ -37,7 +37,7 @@ public class MyAppClass extends JPanel
     int intObstacleType = 0;
     Obstacle[] stationaryObstacles = new Obstacle[5]; // Array holding all stationary obstacles, MAX 5 for now
     int intObstacleCounter = 0;
-    Obstacle[] ballObstacle = new Obstacle[1]; // Array holding the ball obstacle, MAX 1 at all times
+    Ball[] ballObstacle = new Ball[1]; // Array holding the ball obstacle, MAX 1 at all times
     
     public class MyKeyListener implements KeyListener
     {
@@ -159,7 +159,7 @@ public class MyAppClass extends JPanel
 			// Drop Ball Object at mouse coordinates
 			else if(intObstacleType == 3)
 			{
-				ballObstacle[0] = new Obstacle(mouseX, mouseY, true, 0);	
+				ballObstacle[0] = new Ball(mouseX, mouseY, 20);			
 			}
     	}
     	
@@ -275,6 +275,15 @@ public class MyAppClass extends JPanel
 		    		me.setFont(new Font("Serif",Font.BOLD,24));
 		    		me.drawString("No Options Currently SELECTED", 200, 40);
 		    		me.setColor(Color.black);
+		    	}
+		    	
+		    	//draw Ball
+		    	for(int i = 0; i < ballObstacle.length; i++)		    	
+		    	{
+		    		if (ballObstacle[i] != null)
+		    		{
+		    			me.fillOval(ballObstacle[0].getX(), ballObstacle[0].getY(), ballObstacle[0].getRadius(), ballObstacle[0].getRadius());		    	
+		    		}
 		    	}
 		    	
 		    	// For loop that goes through the array storing all STATIONARY obstacles
