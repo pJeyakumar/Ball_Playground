@@ -209,7 +209,8 @@ public class MyAppClass extends JPanel
 	                }  
 	            } // End of Run 
 		} 
-    
+    int screenWidth;
+    int screenHeight;
     public void paint(Graphics g) 
 		{
 	    	final Dimension d = getSize(); 
@@ -218,6 +219,8 @@ public class MyAppClass extends JPanel
 	        	{    
 	            	// Double-buffer: clear the offscreen image.                 
 	                offScreenImage = createImage(d.width, d.height);    
+	                screenWidth = d.width;
+	                screenHeight = d.height;
 	        	}       
 	        
 	        offScreenGraphics  = offScreenImage.getGraphics();      
@@ -227,7 +230,20 @@ public class MyAppClass extends JPanel
 	        renderOffScreen(offScreenImage.getGraphics());  
 	        g.drawImage(offScreenImage, 0, 0, null);
 	     }
-    
+    public void checkWalls(Ball b)
+    {
+    	//Check if ball hits left or right wall
+    	if (b.getX() < 0 || b.getX() > screenWidth - b.getRadius())
+    	{
+    		b.setVelx(b.getVelx() * (-1));
+    	}
+    	//Check if ball hits bottom or top wall
+    	if (b.getY() < 0 || b.getY() > 600 - b.getRadius())
+    	{
+    		b.setVely(b.getVely() * (-1));
+    	}
+    	
+    }
     public void renderOffScreen( Graphics g) 
 		{ 
     		me = g;
@@ -288,6 +304,7 @@ public class MyAppClass extends JPanel
 		    			me.fillOval(ballObstacle[0].getX(), ballObstacle[0].getY(), ballObstacle[0].getRadius(), ballObstacle[0].getRadius());		
 		    			ballObstacle[i].setY(ballObstacle[i].getY() + ballObstacle[i].getVely());
 		    			ballObstacle[i].setX(ballObstacle[i].getX() + ballObstacle[i].getVelx());
+		    			checkWalls(ballObstacle[i]);
 		    		}
 		    		
 		    	}

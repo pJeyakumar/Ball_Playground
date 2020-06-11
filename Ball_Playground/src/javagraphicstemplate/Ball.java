@@ -12,8 +12,8 @@ public class Ball {
 	{
 		this.x = x;
 		this.y = y;
-		this.velx = 2;
-		this.vely = 2;
+		this.velx = 1;
+		this.vely = 1;
 		this.radius = radius;
 	}
 	// Returning X Coordinate
@@ -41,14 +41,24 @@ public class Ball {
 	{
 		return vely;
 	}
-	// Set the x coordinate of the obstacle
+	// Set the x coordinate of the ball
 	public void setX(int x) 
 	{
 		this.x = x;
 	}
-	// Set the y coordinate of the obstacle
+	// Set the y coordinate of the ball
 	public void setY(int y) 
 	{
 		this.y = y;
 	}	
+	//Set the x velocity of ball
+	public void setVelx(int velx)
+	{
+		this.velx = velx;
+	}
+	//Set the y velocity of ball
+	public void setVely(int vely)
+	{
+		this.vely = vely;
+	}
 }
