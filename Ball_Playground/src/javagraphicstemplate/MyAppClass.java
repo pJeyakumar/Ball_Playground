@@ -230,6 +230,7 @@ public class MyAppClass extends JPanel
 	        renderOffScreen(offScreenImage.getGraphics());  
 	        g.drawImage(offScreenImage, 0, 0, null);
 	     }
+    //Function to bounce ball off of wall
     public void checkWalls(Ball b)
     {
     	//Check if ball hits left or right wall
@@ -241,8 +242,53 @@ public class MyAppClass extends JPanel
     	if (b.getY() < 0 || b.getY() > 600 - b.getRadius())
     	{
     		b.setVely(b.getVely() * (-1));
+    	}    	
+    }
+    //Check if ball intersects with an obstacle
+    public boolean intersects(Ball b, Obstacle o)
+    {
+    	int testX = b.getX();
+    	int testY = b.getY();
+    	//Check where circle is closest with respect to rectangle
+    	if (b.getX() < o.getX()) //left edge
+    	{
+    		testX = o.getX();
     	}
-    	
+    	else if (b.getX() > o.getX() + 150) //right edge
+    	{
+    		testX = o.getX() + 150;
+    	}
+    	if (b.getY() < o.getY()) //top edge
+    	{
+    		testY = o.getY();
+    	}
+    	else if (b.getY() > o.getY() + 50)
+    	{
+    		testY = o.getY() + 50;
+    	}
+    	//get distance from closest edges
+    	int distX = b.getX() - testX;
+    	int distY = b.getY() - testY;
+    	double distance = Math.sqrt((distX * distX) + (distY * distY));
+    	if (distance <= b.getRadius())
+    	{
+    		return true;
+    	}
+    	return false;
+    }
+    //Check for collisions with obstacles
+    public void checkObstacles(Ball b, Obstacle[] o)
+    {
+    	for (int i = 0; i < o.length; i++)
+    	{
+    		if (o[i] != null)
+    		{
+    			if (b.getY() > o[i].getY() - b.getRadius())
+    			{
+    				b.setVely(b.getVely() * (-1));
+    			}
+    		}
+    	}
     }
     public void renderOffScreen( Graphics g) 
 		{ 
@@ -302,9 +348,11 @@ public class MyAppClass extends JPanel
 		    		if (ballObstacle[i] != null)
 		    		{
 		    			me.fillOval(ballObstacle[0].getX(), ballObstacle[0].getY(), ballObstacle[0].getRadius(), ballObstacle[0].getRadius());		
+		    			//mimic movement off the ball
 		    			ballObstacle[i].setY(ballObstacle[i].getY() + ballObstacle[i].getVely());
 		    			ballObstacle[i].setX(ballObstacle[i].getX() + ballObstacle[i].getVelx());
 		    			checkWalls(ballObstacle[i]);
+		    			checkObstacles(ballObstacle[i], stationaryObstacles);
 		    		}
 		    		
 		    	}
