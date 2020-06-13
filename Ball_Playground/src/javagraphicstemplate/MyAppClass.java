@@ -294,6 +294,7 @@ public class MyAppClass extends JPanel
     		{
     			if (intersects(b, o[i]))
     			{
+    				//Untilted obstacle bounce behaviour
     				if (o[i].getAngle() == 0 || o[i].getAngle() == 180)
     				{
 	    				if (b.getX() < o[i].getX()) //left edge
@@ -313,9 +314,10 @@ public class MyAppClass extends JPanel
 	    		    		b.setVely(b.getVely() * (-1));
 	    		    	}
     				}
+    				//Titled obstacle bounce behaviour
     				else
     				{
-    					System.out.println("hit");
+    					System.out.println("hit");    					
     				}
     			}
     		}
@@ -378,10 +380,10 @@ public class MyAppClass extends JPanel
 		    	{
 		    		if (ballObstacle[i] != null)
 		    		{
-		    			me.fillOval(ballObstacle[0].getX() - ballObstacle[0].getRadius(), ballObstacle[0].getY() - ballObstacle[0].getRadius(), ballObstacle[0].getRadius()*2, ballObstacle[0].getRadius()*2);		
+		    			me.fillOval(ballObstacle[0].getX() - ballObstacle[0].getRadius(),ballObstacle[0].getY() - ballObstacle[0].getRadius(), ballObstacle[0].getRadius()*2, ballObstacle[0].getRadius()*2);		
 		    			//mimic movement off the ball
 		    			ballObstacle[i].setY(ballObstacle[i].getY() + ballObstacle[i].getVely());
-		    			ballObstacle[i].setX(ballObstacle[i].getX() + ballObstacle[i].getVelx());
+		    			ballObstacle[i].setX((ballObstacle[i].getX() + ballObstacle[i].getVelx()));
 		    			checkWalls(ballObstacle[i]);
 		    			checkObstacles(ballObstacle[i], stationaryObstacles);
 		    		}
