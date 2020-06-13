@@ -247,43 +247,77 @@ public class MyAppClass extends JPanel
     //Check if ball intersects with an obstacle
     public boolean intersects(Ball b, Obstacle o)
     {
-    	//Rotate circle's center 
-    	double unrotatedCircleX = Math.cos(o.getAngle()) * (b.getX() - o.getCenterX()) - Math.sin(o.getAngle()) * (b.getY() - o.getCenterY()) +o.getCenterX();
-    	double unrotatedCircleY = Math.sin(o.getAngle()) * (b.getX() - o.getCenterX()) + Math.cos(o.getAngle()) * (b.getY() - o.getCenterY()) + o.getCenterY();
-    	
-    	//Closest point in rectangle to center of rotated circle
-    	double closestX = unrotatedCircleX;
-    	double closestY = unrotatedCircleY;
-    		
-    	//Find closest x point from center of circle
-    	if (unrotatedCircleX < o.getX())
+    	if (o.getAngle() == 0 || o.getAngle() == 180)
     	{
-    		closestX = o.getX();
+    		int testX = b.getX();
+        	int testY = b.getY();
+        	//Check where circle is closest with respect to rectangle
+        	if (b.getX() < o.getX()) //left edge
+        	{
+        		testX = o.getX();
+        	}
+        	else if (b.getX() > o.getX() + 150) //right edge
+        	{
+        		testX = o.getX() + 150;
+        	}
+        	if (b.getY() < o.getY()) //top edge
+        	{
+        		testY = o.getY();
+        	}
+        	else if (b.getY() > o.getY() + 50)
+        	{
+        		testY = o.getY() + 50;
+        	}
+        	//get distance from closest edges
+        	int distX = b.getX() - testX;
+        	int distY = b.getY() - testY;
+        	double distance = Math.sqrt((distX * distX) + (distY * distY));
+        	if (distance <= b.getRadius())
+        	{
+        		return true;
+        	}
+        	return false;
     	}
-    	else if (unrotatedCircleX > o.getX() + o.getLength())
+    	else
     	{
-    		closestX = o.getX() + o.getLength();
+	    	//Rotate circle's center 
+	    	double unrotatedCircleX = Math.cos(o.getAngle()) * (b.getX() - o.getCenterX()) - Math.sin(o.getAngle()) * (b.getY() - o.getCenterY()) +o.getCenterX();
+	    	double unrotatedCircleY = Math.sin(o.getAngle()) * (b.getX() - o.getCenterX()) + Math.cos(o.getAngle()) * (b.getY() - o.getCenterY()) + o.getCenterY();
+	    	
+	    	//Closest point in rectangle to center of rotated circle
+	    	double closestX = unrotatedCircleX;
+	    	double closestY = unrotatedCircleY;
+	    		
+	    	//Find closest x point from center of circle
+	    	if (unrotatedCircleX < o.getX())
+	    	{
+	    		closestX = o.getX();
+	    	}
+	    	else if (unrotatedCircleX > o.getX() + o.getLength())
+	    	{
+	    		closestX = o.getX() + o.getLength();
+	    	}
+	    		
+	    	//Find closest y point from center of circle
+	    	if (unrotatedCircleY < o.getY())
+	    	{
+	    		closestY = o.getY();
+	    	}
+	    	else if (unrotatedCircleY > o.getY() + o.getWidth())
+	    	{
+	    		closestY = o.getY() + o.getWidth();
+	    	}  
+	    	//Get distance from closest edges
+	    	double distX = Math.abs(unrotatedCircleX - closestX);
+		    double distY = Math.abs(unrotatedCircleY - closestY);
+		    double distance = (distX * distX) + (distY * distY);
+		    
+		    if (distance <= (b.getRadius() * b.getRadius()))
+		    {    	
+		    	return true;
+		    }
+		    return false;
     	}
-    		
-    	//Find closest y point from center of circle
-    	if (unrotatedCircleY < o.getY())
-    	{
-    		closestY = o.getY();
-    	}
-    	else if (unrotatedCircleY > o.getY() + o.getWidth())
-    	{
-    		closestY = o.getY() + o.getWidth();
-    	}  
-    	//Get distance from closest edges
-    	double distX = Math.abs(unrotatedCircleX - closestX);
-	    double distY = Math.abs(unrotatedCircleY - closestY);
-	    double distance = (distX * distX) + (distY * distY);
-	    
-	    if (distance <= (b.getRadius() * b.getRadius()))
-	    {    	
-	    	return true;
-	    }
-	    return false;   	    	   
     } 
     //Check for collisions with obstacles
     public void checkObstacles(Ball b, Obstacle[] o)
