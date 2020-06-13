@@ -161,7 +161,7 @@ public class MyAppClass extends JPanel
 			{
 				if (ballObstacle[0] == null)
 				{
-					ballObstacle[0] = new Ball(mouseX, mouseY, 20);		
+					ballObstacle[0] = new Ball(mouseX, mouseY, 10);		
 				}
 			}
     	}
@@ -234,12 +234,12 @@ public class MyAppClass extends JPanel
     public void checkWalls(Ball b)
     {
     	//Check if ball hits left or right wall
-    	if (b.getX() < 0 || b.getX() > screenWidth - b.getRadius())
+    	if (b.getX()-b.getRadius() < 0 || b.getX() > screenWidth - b.getRadius())
     	{
     		b.setVelx(b.getVelx() * (-1));
     	}
     	//Check if ball hits bottom or top wall
-    	if (b.getY() < 0 || b.getY() > 600 - b.getRadius())
+    	if (b.getY() - b.getRadius() < 0 || b.getY() > 600 - b.getRadius())
     	{
     		b.setVely(b.getVely() * (-1));
     	}    	
@@ -247,35 +247,44 @@ public class MyAppClass extends JPanel
     //Check if ball intersects with an obstacle
     public boolean intersects(Ball b, Obstacle o)
     {
-    	int testX = b.getX();
-    	int testY = b.getY();
-    	//Check where circle is closest with respect to rectangle
-    	if (b.getX() < o.getX()) //left edge
+    	//Rotate circle's center 
+    	double unrotatedCircleX = Math.cos(o.getAngle()) * (b.getX() - o.getCenterX()) - Math.sin(o.getAngle()) * (b.getY() - o.getCenterY()) +o.getCenterX();
+    	double unrotatedCircleY = Math.sin(o.getAngle()) * (b.getX() - o.getCenterX()) + Math.cos(o.getAngle()) * (b.getY() - o.getCenterY()) + o.getCenterY();
+    	
+    	//Closest point in rectangle to center of rotated circle
+    	double closestX = unrotatedCircleX;
+    	double closestY = unrotatedCircleY;
+    		
+    	//Find closest x point from center of circle
+    	if (unrotatedCircleX < o.getX())
     	{
-    		testX = o.getX();
+    		closestX = o.getX();
     	}
-    	else if (b.getX() > o.getX() + 150) //right edge
+    	else if (unrotatedCircleX > o.getX() + o.getLength())
     	{
-    		testX = o.getX() + 150;
+    		closestX = o.getX() + o.getLength();
     	}
-    	if (b.getY() < o.getY()) //top edge
+    		
+    	//Find closest y point from center of circle
+    	if (unrotatedCircleY < o.getY())
     	{
-    		testY = o.getY();
+    		closestY = o.getY();
     	}
-    	else if (b.getY() > o.getY() + 50)
+    	else if (unrotatedCircleY > o.getY() + o.getWidth())
     	{
-    		testY = o.getY() + 50;
-    	}
-    	//get distance from closest edges
-    	int distX = b.getX() - testX;
-    	int distY = b.getY() - testY;
-    	double distance = Math.sqrt((distX * distX) + (distY * distY));
-    	if (distance <= b.getRadius())
-    	{
-    		return true;
-    	}
-    	return false;
-    }
+    		closestY = o.getY() + o.getWidth();
+    	}  
+    	//Get distance from closest edges
+    	double distX = Math.abs(unrotatedCircleX - closestX);
+	    double distY = Math.abs(unrotatedCircleY - closestY);
+	    double distance = (distX * distX) + (distY * distY);
+	    
+	    if (distance <= (b.getRadius() * b.getRadius()))
+	    {    	
+	    	return true;
+	    }
+	    return false;   	    	   
+    } 
     //Check for collisions with obstacles
     public void checkObstacles(Ball b, Obstacle[] o)
     {
@@ -283,9 +292,31 @@ public class MyAppClass extends JPanel
     	{
     		if (o[i] != null)
     		{
-    			if (b.getY() > o[i].getY() - b.getRadius())
+    			if (intersects(b, o[i]))
     			{
-    				b.setVely(b.getVely() * (-1));
+    				if (o[i].getAngle() == 0 || o[i].getAngle() == 180)
+    				{
+	    				if (b.getX() < o[i].getX()) //left edge
+	    		    	{
+	    					b.setVelx(b.getVelx() * (-1));
+	    		    	}
+	    		    	else if (b.getX() > o[i].getX() + 150) //right edge
+	    		    	{
+	    		    		b.setVelx(b.getVelx() * (-1));
+	    		    	}
+	    		    	if (b.getY()  < o[i].getY()) //top edge
+	    		    	{
+	    		    		b.setVely(b.getVely() * (-1));
+	    		    	}
+	    		    	else if (b.getY() > o[i].getY() + 50)//bottom edge
+	    		    	{
+	    		    		b.setVely(b.getVely() * (-1));
+	    		    	}
+    				}
+    				else
+    				{
+    					System.out.println("hit");
+    				}
     			}
     		}
     	}
@@ -347,7 +378,7 @@ public class MyAppClass extends JPanel
 		    	{
 		    		if (ballObstacle[i] != null)
 		    		{
-		    			me.fillOval(ballObstacle[0].getX(), ballObstacle[0].getY(), ballObstacle[0].getRadius(), ballObstacle[0].getRadius());		
+		    			me.fillOval(ballObstacle[0].getX() - ballObstacle[0].getRadius(), ballObstacle[0].getY() - ballObstacle[0].getRadius(), ballObstacle[0].getRadius()*2, ballObstacle[0].getRadius()*2);		
 		    			//mimic movement off the ball
 		    			ballObstacle[i].setY(ballObstacle[i].getY() + ballObstacle[i].getVely());
 		    			ballObstacle[i].setX(ballObstacle[i].getX() + ballObstacle[i].getVelx());
@@ -367,7 +398,7 @@ public class MyAppClass extends JPanel
 		    			if(stationaryObstacles[i].getAngle() == 0 || stationaryObstacles[i].getAngle() == 180)
 		    			{
 		    				// Drawing the rectangle using the objects X and Y coordinates
-		    				me.fillRect(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
+		    				me.fillRect(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), stationaryObstacles[i].getLength(), stationaryObstacles[i].getWidth());
 		    			}
 		    			// Otherwise, we need to rotate the rectangle to its given angle
 		    			else 
@@ -377,7 +408,7 @@ public class MyAppClass extends JPanel
 		    				AffineTransform transform = new AffineTransform();
 		    				
 		    				// Creating a rectangle object using the obstacles information
-		    				Rectangle rect = new Rectangle(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), 150, 50);
+		    				Rectangle rect = new Rectangle(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), stationaryObstacles[i].getLength(), stationaryObstacles[i].getWidth());
 		    				
 		    				// Rotating the rectangle by the obstacles given angle around the CENTER of the rectangle
 		    				transform.rotate(Math.toRadians(stationaryObstacles[i].getAngle()), rect.getX() + 75, rect.getY() + 25);

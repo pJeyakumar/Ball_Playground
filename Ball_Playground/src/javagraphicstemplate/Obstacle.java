@@ -1,12 +1,16 @@
 package javagraphicstemplate;
 
-public class Obstacle extends MyAppClass
+public class Obstacle 
 {
 	// Instance Variables
 	private int x;
 	private int y;
 	private double angle;
 	private boolean isRound;
+	private int length;
+	private int width;
+	private int centerX;
+	private int centerY;
 	// Constructor 
 	Obstacle(int x, int y, boolean isRound, int angle)
 	{
@@ -14,6 +18,10 @@ public class Obstacle extends MyAppClass
 		this.y = y;
 		this.isRound = isRound;
 		this.angle = angle;
+		this.length = 150;
+		this.width = 50;
+		this.centerX = this.x + 75;
+		this.centerY = this.y + 25;
 	}
 	// Returning X Coordinate
 	public int getX() 
@@ -24,6 +32,26 @@ public class Obstacle extends MyAppClass
 	public int getY() 
 	{
 		return y;
+	}
+	//Return centerY
+	public int getCenterY()
+	{
+		return centerY;
+	}
+	//Return centerX
+	public int getCenterX()
+	{
+		return centerX;
+	}
+	//return Width
+	public int getWidth()
+	{
+		return width;
+	}
+	//return Length
+	public int getLength()
+	{
+		return length;
 	}
 	// Set the x coordinate of the obstacle
 	public void setX(int x) 
