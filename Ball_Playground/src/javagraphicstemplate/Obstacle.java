@@ -3,16 +3,16 @@ package javagraphicstemplate;
 public class Obstacle 
 {
 	// Instance Variables
-	private int x;
-	private int y;
+	private double x;
+	private double y;
 	private double angle;
 	private boolean isRound;
 	private int length;
 	private int width;
-	private int centerX;
-	private int centerY;
+	private double centerX;
+	private double centerY;
 	// Constructor 
-	Obstacle(int x, int y, boolean isRound, int angle)
+	Obstacle(double x, double y, boolean isRound, int angle)
 	{
 		this.x = x;
 		this.y = y;
@@ -24,22 +24,22 @@ public class Obstacle
 		this.centerY = this.y + 25;
 	}
 	// Returning X Coordinate
-	public int getX() 
+	public double getX() 
 	{
 		return x;
 	}
 	// Returning Y Coordinate
-	public int getY() 
+	public double getY() 
 	{
 		return y;
 	}
 	//Return centerY
-	public int getCenterY()
+	public double getCenterY()
 	{
 		return centerY;
 	}
 	//Return centerX
-	public int getCenterX()
+	public double getCenterX()
 	{
 		return centerX;
 	}
@@ -54,12 +54,12 @@ public class Obstacle
 		return length;
 	}
 	// Set the x coordinate of the obstacle
-	public void setX(int x) 
+	public void setX(double x) 
 	{
 		this.x = x;
 	}
 	// Set the y coordinate of the obstacle
-	public void setY(int y) 
+	public void setY(double y) 
 	{
 		this.y = y;
 	}
