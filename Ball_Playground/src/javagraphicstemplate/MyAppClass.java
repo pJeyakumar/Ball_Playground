@@ -11,6 +11,7 @@ import java.util.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 import sun.audio.*;
 import java.net.URL;
@@ -247,77 +248,43 @@ public class MyAppClass extends JPanel
     //Check if ball intersects with an obstacle
     public boolean intersects(Ball b, Obstacle o)
     {
-    	if (o.getAngle() == 0 || o.getAngle() == 180)
+    	//Rotate circle's center 
+    	double unrotatedCircleX = Math.cos(o.getAngle()) * (b.getX() - o.getCenterX()) - Math.sin(o.getAngle()) * (b.getY() - o.getCenterY()) +o.getCenterX();
+    	double unrotatedCircleY = Math.sin(o.getAngle()) * (b.getX() - o.getCenterX()) + Math.cos(o.getAngle()) * (b.getY() - o.getCenterY()) + o.getCenterY();
+    	
+    	//Closest point in rectangle to center of rotated circle
+    	double closestX = unrotatedCircleX;
+    	double closestY = unrotatedCircleY;
+    		
+    	//Find closest x point from center of circle
+    	if (unrotatedCircleX < o.getX())
     	{
-    		int testX = b.getX();
-        	int testY = b.getY();
-        	//Check where circle is closest with respect to rectangle
-        	if (b.getX() < o.getX()) //left edge
-        	{
-        		testX = o.getX();
-        	}
-        	else if (b.getX() > o.getX() + 150) //right edge
-        	{
-        		testX = o.getX() + 150;
-        	}
-        	if (b.getY() < o.getY()) //top edge
-        	{
-        		testY = o.getY();
-        	}
-        	else if (b.getY() > o.getY() + 50)
-        	{
-        		testY = o.getY() + 50;
-        	}
-        	//get distance from closest edges
-        	int distX = b.getX() - testX;
-        	int distY = b.getY() - testY;
-        	double distance = Math.sqrt((distX * distX) + (distY * distY));
-        	if (distance <= b.getRadius())
-        	{
-        		return true;
-        	}
-        	return false;
+    		closestX = o.getX();
     	}
-    	else
+    	else if (unrotatedCircleX > o.getX() + o.getLength())
     	{
-	    	//Rotate circle's center 
-	    	double unrotatedCircleX = Math.cos(o.getAngle()) * (b.getX() - o.getCenterX()) - Math.sin(o.getAngle()) * (b.getY() - o.getCenterY()) +o.getCenterX();
-	    	double unrotatedCircleY = Math.sin(o.getAngle()) * (b.getX() - o.getCenterX()) + Math.cos(o.getAngle()) * (b.getY() - o.getCenterY()) + o.getCenterY();
-	    	
-	    	//Closest point in rectangle to center of rotated circle
-	    	double closestX = unrotatedCircleX;
-	    	double closestY = unrotatedCircleY;
-	    		
-	    	//Find closest x point from center of circle
-	    	if (unrotatedCircleX < o.getX())
-	    	{
-	    		closestX = o.getX();
-	    	}
-	    	else if (unrotatedCircleX > o.getX() + o.getLength())
-	    	{
-	    		closestX = o.getX() + o.getLength();
-	    	}
-	    		
-	    	//Find closest y point from center of circle
-	    	if (unrotatedCircleY < o.getY())
-	    	{
-	    		closestY = o.getY();
-	    	}
-	    	else if (unrotatedCircleY > o.getY() + o.getWidth())
-	    	{
-	    		closestY = o.getY() + o.getWidth();
-	    	}  
-	    	//Get distance from closest edges
-	    	double distX = Math.abs(unrotatedCircleX - closestX);
-		    double distY = Math.abs(unrotatedCircleY - closestY);
-		    double distance = (distX * distX) + (distY * distY);
-		    
-		    if (distance <= (b.getRadius() * b.getRadius()))
-		    {    	
-		    	return true;
-		    }
-		    return false;
+    		closestX = o.getX() + o.getLength();
     	}
+    		
+    	//Find closest y point from center of circle
+    	if (unrotatedCircleY < o.getY())
+    	{
+    		closestY = o.getY();
+    	}
+    	else if (unrotatedCircleY > o.getY() + o.getWidth())
+    	{
+    		closestY = o.getY() + o.getWidth();
+    	}  
+    	//Get distance from closest edges
+    	double distX = Math.abs(unrotatedCircleX - closestX);
+	    double distY = Math.abs(unrotatedCircleY - closestY);
+	    double distance = (distX * distX) + (distY * distY);
+	    
+	    if (distance <= (b.getRadius() * b.getRadius()))
+	    {    	
+	    	return true;
+	    }
+	    return false;   	    	   
     } 
     //Check for collisions with obstacles
     public void checkObstacles(Ball b, Obstacle[] o)
@@ -427,6 +394,7 @@ public class MyAppClass extends JPanel
 		    	// For loop that goes through the array storing all STATIONARY obstacles
 		    	for(int i = 0; i < stationaryObstacles.length; i++) 
 		    	{
+    				Graphics2D g2d = (Graphics2D)g;
 		    		// Ensuring the array index is NOT NULL
 		    		if(stationaryObstacles[i] != null) 
 		    		{
@@ -434,18 +402,18 @@ public class MyAppClass extends JPanel
 		    			if(stationaryObstacles[i].getAngle() == 0 || stationaryObstacles[i].getAngle() == 180)
 		    			{
 		    				// Drawing the rectangle using the objects X and Y coordinates
-		    				me.fillRect(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), stationaryObstacles[i].getLength(), stationaryObstacles[i].getWidth());
+		    				Rectangle2D rect = new Rectangle2D.Double(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), stationaryObstacles[i].getLength(), stationaryObstacles[i].getWidth());
+		    				g2d.fill(rect);
 		    			}
 		    			// Otherwise, we need to rotate the rectangle to its given angle
 		    			else 
 		    			{
 		    				// 2D Graphics and AffineTransformation declarations
-		    				Graphics2D g2d = (Graphics2D)g;
 		    				AffineTransform transform = new AffineTransform();
 		    				
 		    				// Creating a rectangle object using the obstacles information
-		    				Rectangle rect = new Rectangle(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), stationaryObstacles[i].getLength(), stationaryObstacles[i].getWidth());
-		    				
+		    				Rectangle2D rect = new Rectangle2D.Double(stationaryObstacles[i].getX(), stationaryObstacles[i].getY(), stationaryObstacles[i].getLength(), stationaryObstacles[i].getWidth());
+
 		    				// Rotating the rectangle by the obstacles given angle around the CENTER of the rectangle
 		    				transform.rotate(Math.toRadians(stationaryObstacles[i].getAngle()), rect.getX() + 75, rect.getY() + 25);
 		    				
@@ -479,7 +447,8 @@ public class MyAppClass extends JPanel
 	    		me.setFont(new Font("Serif", Font.BOLD, 16));
 	    		me.drawString("Here is an example of the DEFAULT obstacle", 60, 80);
 	    		me.setColor(Color.black);
-	    		me.fillRect(iObstacle.getX(), iObstacle.getY(), 150, 50);
+	    		Rectangle2D rect = new Rectangle2D.Double(iObstacle.getX(), iObstacle.getY(), 150, 50);
+	    		g2d.fill(rect);
 	    		
 	    		// Displaying the various ANGLES of the Obstacle we declared
 	    		me.setColor(Color.white);
@@ -491,7 +460,7 @@ public class MyAppClass extends JPanel
 	    		iObstacle.setY(275);
 	    		iObstacle.setAngle((iObstacle.getAngle() + 45) % 360);
 	    		
-				Rectangle rect1 = new Rectangle(iObstacle.getX(), iObstacle.getY(), 150, 50);
+				Rectangle2D rect1 = new Rectangle2D.Double(iObstacle.getX(), iObstacle.getY(), 150, 50);
 	    		transform1.rotate(Math.toRadians(iObstacle.getAngle()), iObstacle.getX() + 75, iObstacle.getY() + 25);
 				// Creating the transformed object
 				Shape transformed1 = transform1.createTransformedShape(rect1);
@@ -502,7 +471,7 @@ public class MyAppClass extends JPanel
 				iObstacle.setX(200);
 	    		iObstacle.setAngle((iObstacle.getAngle() + 45) % 360);
 				
-				Rectangle rect2 = new Rectangle(iObstacle.getX(), iObstacle.getY(), 150, 50);
+				Rectangle2D rect2 = new Rectangle2D.Double(iObstacle.getX(), iObstacle.getY(), 150, 50);
 	    		transform2.rotate(Math.toRadians(iObstacle.getAngle()), iObstacle.getX() + 75, iObstacle.getY() + 25);
 				// Creating the transformed object
 				Shape transformed2 = transform2.createTransformedShape(rect2);
@@ -513,7 +482,7 @@ public class MyAppClass extends JPanel
 				iObstacle.setX(340);
 				iObstacle.setAngle((iObstacle.getAngle() + 45) % 360);
 				
-				Rectangle rect3 = new Rectangle(iObstacle.getX(), iObstacle.getY(), 150, 50);
+				Rectangle2D rect3 = new Rectangle2D.Double(iObstacle.getX(), iObstacle.getY(), 150, 50);
 	    		transform3.rotate(Math.toRadians(iObstacle.getAngle()), iObstacle.getX() + 75, iObstacle.getY() + 25);
 				// Creating the transformed object
 				Shape transformed3 = transform3.createTransformedShape(rect3);
