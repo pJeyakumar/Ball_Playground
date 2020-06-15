@@ -40,6 +40,7 @@ public class MyAppClass extends JPanel
     Obstacle[] stationaryObstacles = new Obstacle[5]; // Array holding all stationary obstacles, MAX 5 for now
     int intObstacleCounter = 0;
     Ball[] ballObstacle = new Ball[1]; // Array holding the ball obstacle, MAX 1 at all times
+    boolean gravity = false;
     
     public class MyKeyListener implements KeyListener
     {
@@ -86,7 +87,8 @@ public class MyAppClass extends JPanel
     				me.setFont(new Font("Serif",Font.PLAIN,18));
     				me.drawString("Press 1 to Equip Flat Rectangle", 0, 625);
     				me.drawString("Press 2 to Tilt Rectangle", 0, 650);
-    				me.drawString("Press B to Equip Ball", 0, 675);
+    				me.drawString("Press B to Equip Ball", 0, 675); 
+    				me.drawString("Press G for gravity", 536, 660);
     				me.drawString("Press R to Reset the Screen", 575, 690);
 	    		
     				// Resetting Obstacle counter
@@ -100,6 +102,17 @@ public class MyAppClass extends JPanel
     				for(int i = 0; i < stationaryObstacles.length; i++) 
     				{
     					stationaryObstacles[i] = null;
+    				}
+    			}
+    			else if (e.getKeyCode() == 'G')
+    			{
+    				if (!gravity)
+    				{
+    					gravity = true;
+    				}
+    				else
+    				{
+    					gravity = false;
     				}
     			}
     		}
@@ -338,8 +351,9 @@ public class MyAppClass extends JPanel
 	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 635);
 	    		me.drawString("Press 2 to Tilt Rectangle", 0, 660);
 	    		me.drawString("Press B to Equip Ball", 0, 685);
-	    		me.drawString("Press I to go to Instruction Menu", 536, 660);
-	    		me.drawString("Press R to Reset the Screen", 575, 690);	   
+	    		me.drawString("Press I to go to Instruction Menu", 536, 630);
+	    		me.drawString("Press G for gravity", 536, 660);
+	    		me.drawString("Press R to Reset the Screen", 536, 690);	   
 	    		
 		    	// Notification that Flat Obstacle is selected
 		    	if(intObstacleType == 1) 
@@ -376,6 +390,14 @@ public class MyAppClass extends JPanel
 		    		me.drawString("No Options Currently SELECTED", 200, 40);
 		    		me.setColor(Color.black);
 		    	}
+		    	// Notification for gravity 
+		    	if (gravity)
+		    	{
+		    		me.setColor(Color.magenta);
+		    		me.setFont(new Font("Serif",Font.BOLD,24));
+		    		me.drawString("Gravity Activated", 200, 20);
+		    		me.setColor(Color.black);
+		    	}
 		    	
 		    	//draw Ball
 		    	for(int i = 0; i < ballObstacle.length; i++)		    	
@@ -386,6 +408,10 @@ public class MyAppClass extends JPanel
 		    			Ellipse2D ball = new Ellipse2D.Double(ballObstacle[0].getX() - ballObstacle[0].getRadius(),ballObstacle[0].getY() - ballObstacle[0].getRadius(), ballObstacle[0].getRadius()*2, ballObstacle[0].getRadius()*2);		
 		    			((Graphics2D) g1).fill(ball);
 		    			//mimic movement off the ball
+		    			if (gravity)
+		    			{
+		    				ballObstacle[i].setVely(ballObstacle[i].getVely() + ballObstacle[i].getAcc());
+		    			}		    		
 		    			ballObstacle[i].setY(ballObstacle[i].getY() + ballObstacle[i].getVely());
 		    			ballObstacle[i].setX((ballObstacle[i].getX() + ballObstacle[i].getVelx()));
 		    			checkWalls(ballObstacle[i]);

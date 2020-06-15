@@ -6,14 +6,18 @@ public class Ball {
 	private double radius;
 	private double velx;
 	private double vely;
+	private double gravityY;
+	private double accleration;
 	
 	//Constructor
 	Ball(double x, double y, double radius)
 	{
 		this.x = x;
 		this.y = y;
-		this.velx = 1;
-		this.vely = 0.6;
+		this.velx = 0.2;
+		this.vely = 0.0;
+		this.gravityY = 0.0;
+		this.accleration = 0.0002;
 		this.radius = radius;
 	}
 	// Returning X Coordinate
@@ -41,6 +45,16 @@ public class Ball {
 	{
 		return vely;
 	}
+	//get accleration (gravity)
+	public double getAcc()
+	{
+		return accleration;
+	}
+	//get gravityY
+	public double getGravityY()
+	{
+		return gravityY;
+	}
 	// Set the x coordinate of the ball
 	public void setX(double x) 
 	{
@@ -51,6 +65,11 @@ public class Ball {
 	{
 		this.y = y;
 	}	
+	//Set y velocity with gravity
+	public void setGravityY(double y)
+	{
+		this.gravityY = y;
+	}
 	//Set the x velocity of ball
 	public void setVelx(double velx)
 	{
