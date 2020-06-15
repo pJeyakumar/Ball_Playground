@@ -11,6 +11,7 @@ import java.util.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import sun.audio.*;
@@ -162,7 +163,7 @@ public class MyAppClass extends JPanel
 			{
 				if (ballObstacle[0] == null)
 				{
-					ballObstacle[0] = new Ball(mouseX, mouseY, 10);		
+					ballObstacle[0] = new Ball(mouseX, mouseY, 10.0);		
 				}
 			}
     	}
@@ -381,7 +382,9 @@ public class MyAppClass extends JPanel
 		    	{
 		    		if (ballObstacle[i] != null)
 		    		{
-		    			me.fillOval(ballObstacle[0].getX() - ballObstacle[0].getRadius(),ballObstacle[0].getY() - ballObstacle[0].getRadius(), ballObstacle[0].getRadius()*2, ballObstacle[0].getRadius()*2);		
+		    			Graphics g1 = (Graphics2D) g ;
+		    			Ellipse2D ball = new Ellipse2D.Double(ballObstacle[0].getX() - ballObstacle[0].getRadius(),ballObstacle[0].getY() - ballObstacle[0].getRadius(), ballObstacle[0].getRadius()*2, ballObstacle[0].getRadius()*2);		
+		    			((Graphics2D) g1).fill(ball);
 		    			//mimic movement off the ball
 		    			ballObstacle[i].setY(ballObstacle[i].getY() + ballObstacle[i].getVely());
 		    			ballObstacle[i].setX((ballObstacle[i].getX() + ballObstacle[i].getVelx()));
