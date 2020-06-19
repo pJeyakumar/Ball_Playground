@@ -14,10 +14,10 @@ public class Ball {
 	{
 		this.x = x;
 		this.y = y;
-		this.velx = 0.2;
+		this.velx = 0.5;
 		this.vely = 0.0;
 		this.gravityY = 0.0;
-		this.accleration = 0.0002;
+		this.accleration = 0.0004;
 		this.radius = radius;
 	}
 	// Returning X Coordinate
