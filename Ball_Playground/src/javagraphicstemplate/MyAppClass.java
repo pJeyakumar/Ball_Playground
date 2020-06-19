@@ -303,43 +303,34 @@ public class MyAppClass extends JPanel
     //Check if ball intersects with an obstacle
     public boolean intersects(Ball b, Obstacle o)
     {
-    	//Rotate circle's center 
-    	double unrotatedCircleX = Math.cos(o.getAngle()) * (b.getX() - o.getCenterX()) - Math.sin(o.getAngle()) * (b.getY() - o.getCenterY()) +o.getCenterX();
-    	double unrotatedCircleY = Math.sin(o.getAngle()) * (b.getX() - o.getCenterX()) + Math.cos(o.getAngle()) * (b.getY() - o.getCenterY()) + o.getCenterY();
-    	
-    	//Closest point in rectangle to center of rotated circle
-    	double closestX = unrotatedCircleX;
-    	double closestY = unrotatedCircleY;
-    		
-    	//Find closest x point from center of circle
-    	if (unrotatedCircleX < o.getX())
+    	double testX = b.getX();
+    	double testY = b.getY();
+    	//Check where circle is closest with respect to rectangle
+    	if (b.getX() < o.getX()) //left edge
     	{
-    		closestX = o.getX();
+    		testX = o.getX();
     	}
-    	else if (unrotatedCircleX > o.getX() + o.getLength())
+    	else if (b.getX() > o.getX() + 150) //right edge
     	{
-    		closestX = o.getX() + o.getLength();
+    		testX = o.getX() + 150;
     	}
-    		
-    	//Find closest y point from center of circle
-    	if (unrotatedCircleY < o.getY())
+    	if (b.getY() < o.getY()) //top edge
     	{
-    		closestY = o.getY();
+    		testY = o.getY();
     	}
-    	else if (unrotatedCircleY > o.getY() + o.getWidth())
+    	else if (b.getY() > o.getY() + 50)
     	{
-    		closestY = o.getY() + o.getWidth();
-    	}  
-    	//Get distance from closest edges
-    	double distX = Math.abs(unrotatedCircleX - closestX);
-	    double distY = Math.abs(unrotatedCircleY - closestY);
-	    double distance = (distX * distX) + (distY * distY);
-	    
-	    if (distance <= (b.getRadius() * b.getRadius()))
-	    {    	
-	    	return true;
-	    }
-	    return false;   	    	   
+    		testY = o.getY() + 50;
+    	}
+    	//get distance from closest edges
+    	double distX = b.getX() - testX;
+    	double distY = b.getY() - testY;
+    	double distance = Math.sqrt((distX * distX) + (distY * distY));
+    	if (distance <= b.getRadius())
+    	{
+    		return true;
+    	}
+    	return false; 	   
     } 
     //Check for collisions with obstacles
     public void checkObstacles(Ball b, Obstacle[] o)
@@ -456,6 +447,7 @@ public class MyAppClass extends JPanel
 		    			ballObstacle[i].setY(ballObstacle[i].getY() + ballObstacle[i].getVely());
 		    			ballObstacle[i].setX((ballObstacle[i].getX() + ballObstacle[i].getVelx()));
 		    			checkWalls(ballObstacle[i]);
+		    			checkObstacles(ballObstacle[i], stationaryObstacles);
 		    		}
 		    		
 		    	}
