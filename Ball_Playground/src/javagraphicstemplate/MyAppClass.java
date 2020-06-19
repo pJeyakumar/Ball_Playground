@@ -11,7 +11,6 @@ import java.util.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import sun.audio.*;
@@ -40,7 +39,6 @@ public class MyAppClass extends JPanel
     Obstacle[] stationaryObstacles = new Obstacle[5]; // Array holding all stationary obstacles, MAX 5 for now
     int intObstacleCounter = 0;
     Ball[] ballObstacle = new Ball[1]; // Array holding the ball obstacle, MAX 1 at all times
-    boolean gravity = false;
     
     public class MyKeyListener implements KeyListener
     {
@@ -59,7 +57,10 @@ public class MyAppClass extends JPanel
     			{
     				intObstacleType = 1;
     			}
-    			
+    			else if(e.getKeyCode() == '0')
+    			{
+    				intObstacleType = 0;
+    			}
     			// Ability to Tilt Rectangle is Selected
     			else if(e.getKeyCode() == '2') 
     			{
@@ -87,8 +88,7 @@ public class MyAppClass extends JPanel
     				me.setFont(new Font("Serif",Font.PLAIN,18));
     				me.drawString("Press 1 to Equip Flat Rectangle", 0, 625);
     				me.drawString("Press 2 to Tilt Rectangle", 0, 650);
-    				me.drawString("Press B to Equip Ball", 0, 675); 
-    				me.drawString("Press G for gravity", 536, 660);
+    				me.drawString("Press B to Equip Ball", 0, 675);
     				me.drawString("Press R to Reset the Screen", 575, 690);
 	    		
     				// Resetting Obstacle counter
@@ -102,17 +102,6 @@ public class MyAppClass extends JPanel
     				for(int i = 0; i < stationaryObstacles.length; i++) 
     				{
     					stationaryObstacles[i] = null;
-    				}
-    			}
-    			else if (e.getKeyCode() == 'G')
-    			{
-    				if (!gravity)
-    				{
-    					gravity = true;
-    				}
-    				else
-    				{
-    					gravity = false;
     				}
     			}
     		}
@@ -151,6 +140,18 @@ public class MyAppClass extends JPanel
     			if(intObstacleType == 1) 
     			{
     				stationaryObstacles[intObstacleCounter] = new Obstacle(mouseX, mouseY, false, 0);
+    				
+    				stationaryObstacles[intObstacleCounter].setTLCrX(mouseX);
+    				stationaryObstacles[intObstacleCounter].setTLCrY(mouseY);
+    				
+    				stationaryObstacles[intObstacleCounter].setTRCrX(mouseX + stationaryObstacles[intObstacleCounter].getLength());
+    				stationaryObstacles[intObstacleCounter].setTRCrY(mouseY);
+    				
+    				stationaryObstacles[intObstacleCounter].setBRCrX(mouseX + stationaryObstacles[intObstacleCounter].getLength());
+    				stationaryObstacles[intObstacleCounter].setBRCrY(mouseY + stationaryObstacles[intObstacleCounter].getWidth());
+    				
+    				stationaryObstacles[intObstacleCounter].setBLCrX(mouseX);
+    				stationaryObstacles[intObstacleCounter].setBLCrY(mouseY + stationaryObstacles[intObstacleCounter].getWidth());
     				intObstacleCounter++;
     			}
     		}
@@ -162,12 +163,27 @@ public class MyAppClass extends JPanel
 					// Ensuring the object we're looking at is not NULL
 					if(stationaryObstacles[i] != null) 
 					{
-						// Checking the mouse coordinates are within the borders of any drawn obstacles
-						if(mouseX >= stationaryObstacles[i].getX() && mouseX <= (stationaryObstacles[i].getX() + 150) && mouseY >= stationaryObstacles[i].getY() && mouseY <= (stationaryObstacles[i].getY() + 50) ) 
+						// Checking if the mouse intersects the obstacle when the obstacle is flat
+						if(stationaryObstacles[i].getAngle() == 0 || stationaryObstacles[i].getAngle() == 180) 
 						{
-							// Adjust angle of obstacle (add 45 rads to existing angle)
-							stationaryObstacles[i].setAngle(((stationaryObstacles[i].getAngle() + 45) % 360));
+							// Checking the mouse coordinates are within the borders of any drawn obstacles
+							if(mouseX >= stationaryObstacles[i].getX() && mouseX <= (stationaryObstacles[i].getX() + 150) && mouseY >= stationaryObstacles[i].getY() && mouseY <= (stationaryObstacles[i].getY() + 50) ) 
+							{
+								// Adjust angle of obstacle (add 45 rads to existing angle)
+								stationaryObstacles[i].setAngle(((stationaryObstacles[i].getAngle() + 45) % 360));
+								setCornerCoordinates(stationaryObstacles[i]);
+							}
 						}
+						// Checking if the mouse intersects the obstacle when the obstacle is rotated
+						else 
+						{
+							if(stationaryObstacles[i].inRotatedObstacle(mouseX,mouseY) == true)
+							{
+								// Adjust angle of obstacle (add 45 rads to existing angle)
+								stationaryObstacles[i].setAngle(((stationaryObstacles[i].getAngle() + 45) % 360));
+								setCornerCoordinates(stationaryObstacles[i]);
+							}
+						}	
 					}
 				}
 			}
@@ -176,8 +192,19 @@ public class MyAppClass extends JPanel
 			{
 				if (ballObstacle[0] == null)
 				{
-					ballObstacle[0] = new Ball(mouseX, mouseY, 10.0);		
+					ballObstacle[0] = new Ball(mouseX, mouseY, 10);		
 				}
+			}
+			else if (intObstacleType == 0)
+			{
+				System.out.println(mouseX + " " + mouseY);
+				System.out.println(stationaryObstacles[0].getTLCrX() + " " + stationaryObstacles[0].getTLCrY() + " TL");
+				System.out.println(stationaryObstacles[0].getTRCrX() + " " + stationaryObstacles[0].getTRCrY() + " TR");
+				System.out.println(stationaryObstacles[0].getBLCrX() + " " + stationaryObstacles[0].getBLCrY() + " BL");
+				System.out.println(stationaryObstacles[0].getBRCrX() + " " + stationaryObstacles[0].getBRCrY() + " BR");
+
+
+
 			}
     	}
     	
@@ -351,9 +378,8 @@ public class MyAppClass extends JPanel
 	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 635);
 	    		me.drawString("Press 2 to Tilt Rectangle", 0, 660);
 	    		me.drawString("Press B to Equip Ball", 0, 685);
-	    		me.drawString("Press I to go to Instruction Menu", 536, 630);
-	    		me.drawString("Press G for gravity", 536, 660);
-	    		me.drawString("Press R to Reset the Screen", 536, 690);	   
+	    		me.drawString("Press I to go to Instruction Menu", 536, 660);
+	    		me.drawString("Press R to Reset the Screen", 575, 690);	   
 	    		
 		    	// Notification that Flat Obstacle is selected
 		    	if(intObstacleType == 1) 
@@ -390,28 +416,14 @@ public class MyAppClass extends JPanel
 		    		me.drawString("No Options Currently SELECTED", 200, 40);
 		    		me.setColor(Color.black);
 		    	}
-		    	// Notification for gravity 
-		    	if (gravity)
-		    	{
-		    		me.setColor(Color.magenta);
-		    		me.setFont(new Font("Serif",Font.BOLD,24));
-		    		me.drawString("Gravity Activated", 200, 20);
-		    		me.setColor(Color.black);
-		    	}
 		    	
 		    	//draw Ball
 		    	for(int i = 0; i < ballObstacle.length; i++)		    	
 		    	{
 		    		if (ballObstacle[i] != null)
 		    		{
-		    			Graphics g1 = (Graphics2D) g ;
-		    			Ellipse2D ball = new Ellipse2D.Double(ballObstacle[0].getX() - ballObstacle[0].getRadius(),ballObstacle[0].getY() - ballObstacle[0].getRadius(), ballObstacle[0].getRadius()*2, ballObstacle[0].getRadius()*2);		
-		    			((Graphics2D) g1).fill(ball);
+		    			me.fillOval(ballObstacle[0].getX() - ballObstacle[0].getRadius(),ballObstacle[0].getY() - ballObstacle[0].getRadius(), ballObstacle[0].getRadius()*2, ballObstacle[0].getRadius()*2);		
 		    			//mimic movement off the ball
-		    			if (gravity)
-		    			{
-		    				ballObstacle[i].setVely(ballObstacle[i].getVely() + ballObstacle[i].getAcc());
-		    			}		    		
 		    			ballObstacle[i].setY(ballObstacle[i].getY() + ballObstacle[i].getVely());
 		    			ballObstacle[i].setX((ballObstacle[i].getX() + ballObstacle[i].getVelx()));
 		    			checkWalls(ballObstacle[i]);
@@ -519,4 +531,47 @@ public class MyAppClass extends JPanel
 				g2d.fill(transformed3);
 	    	}
 	    }
+    public void setCornerCoordinates(Obstacle iObstacle) 
+    {
+    	// Variable Declaration
+    	double oldX;
+    	double oldY;
+    	double centerX = iObstacle.getCenterX();
+    	double centerY = iObstacle.getCenterY();
+    	double angle = Math.toRadians(iObstacle.getAngle());
+    	
+    	// Adjusting the top left corner coordinates
+    	
+    	// Setting the oldX and oldY variables
+    	oldX = iObstacle.getTLCrX();
+    	oldY = iObstacle.getTLCrY();
+    	
+    	// Rotating the given point around the rectangle's center
+    	iObstacle.setTLCrX(centerX + ((oldX - centerX)*Math.cos(angle) - ((oldY - centerY)*Math.sin(angle))));
+    	iObstacle.setTLCrY(centerY + ((oldX - centerX)*Math.sin(angle) - ((oldY - centerY)*Math.cos(angle))));
+    	
+    	// Adjusting the top right corner coordinates
+    	
+    	oldX = iObstacle.getTRCrX();
+    	oldY = iObstacle.getTRCrY();
+    	
+    	iObstacle.setTRCrX(centerX + ((oldX - centerX)*Math.cos(angle) - ((oldY - centerY)*Math.sin(angle))));
+    	iObstacle.setTRCrY(centerY + ((oldX - centerX)*Math.sin(angle) - ((oldY - centerY)*Math.cos(angle))));
+    	
+    	// Adjusting the bottom right corner coordinates
+    	
+    	oldX = iObstacle.getBRCrX();
+    	oldY = iObstacle.getBRCrY();
+    	
+    	iObstacle.setBRCrX(centerX + ((oldX - centerX)*Math.cos(angle) - ((oldY - centerY)*Math.sin(angle))));
+    	iObstacle.setBRCrY(centerY + ((oldX - centerX)*Math.sin(angle) - ((oldY - centerY)*Math.cos(angle))));
+    	
+    	// Adjusting the bottom left corner coordinates
+    	
+    	oldX = iObstacle.getBLCrX();
+    	oldY = iObstacle.getBLCrY();
+    	
+    	iObstacle.setBLCrX(centerX + ((oldX - centerX)*Math.cos(angle) - ((oldY - centerY)*Math.sin(angle))));
+    	iObstacle.setBLCrY(centerY + ((oldX - centerX)*Math.sin(angle) - ((oldY - centerY)*Math.cos(angle))));
+    }
 }
