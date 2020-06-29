@@ -220,9 +220,6 @@ public class MyAppClass extends JPanel
 				System.out.println(stationaryObstacles[0].getTRCrX() + " " + stationaryObstacles[0].getTRCrY() + " TR");
 				System.out.println(stationaryObstacles[0].getBLCrX() + " " + stationaryObstacles[0].getBLCrY() + " BL");
 				System.out.println(stationaryObstacles[0].getBRCrX() + " " + stationaryObstacles[0].getBRCrY() + " BR");
-
-
-
 			}
     	}
     	
@@ -343,7 +340,7 @@ public class MyAppClass extends JPanel
     	{
     		if (o[i] != null)
     		{
-    			if (intersects(b, o[i]))
+    			if (o[i].inRotatedObstacle(b.getX(), b.getY()))
     			{
     				//Untilted obstacle bounce behaviour
     				if (o[i].getAngle() == 0 || o[i].getAngle() == 180)

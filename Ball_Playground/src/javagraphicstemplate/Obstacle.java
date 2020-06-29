@@ -167,7 +167,7 @@ public class Obstacle
 	{
 		return this.topLeftCornerX;
 	}
-	public boolean inRotatedObstacle(int pX, int pY) 
+	public boolean inRotatedObstacle(double pX, double pY) 
 	{
 		// Triangle APB
 		double Area1 = Math.abs((pX * topLeftCornerY - topLeftCornerX * pY) + (topRightCornerX * pY - pX * topRightCornerY) + (topLeftCornerX * topRightCornerY - topRightCornerX * topLeftCornerY))/2;
