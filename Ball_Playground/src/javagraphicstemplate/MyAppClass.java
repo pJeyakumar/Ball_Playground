@@ -177,27 +177,31 @@ public class MyAppClass extends JPanel
 					// Ensuring the object we're looking at is not NULL
 					if(stationaryObstacles[i] != null) 
 					{
-						// Checking if the mouse intersects the obstacle when the obstacle is flat
-						if(stationaryObstacles[i].getAngle() == 0 || stationaryObstacles[i].getAngle() == 180) 
+						// Variable Declaration
+						Boolean flatRectIntersect = false;
+						Boolean tiltedRectIntersect = false;
+						Obstacle iObstacle = stationaryObstacles[i];
+						
+						// Setting boolean variable to the result of checking if mouse in in a flat rectangle
+						if(mouseX >= iObstacle.getX() && mouseX <= (iObstacle.getX() + 150) && mouseY >= iObstacle.getY() && mouseY <= (iObstacle.getY() + 50) && (iObstacle.getAngle() == 0 || iObstacle.getAngle() == 180)) 
 						{
-							// Checking the mouse coordinates are within the borders of any drawn obstacles
-							if(mouseX >= stationaryObstacles[i].getX() && mouseX <= (stationaryObstacles[i].getX() + 150) && mouseY >= stationaryObstacles[i].getY() && mouseY <= (stationaryObstacles[i].getY() + 50) ) 
-							{
-								// Adjust angle of obstacle (add 45 rads to existing angle)
-								stationaryObstacles[i].setAngle(((stationaryObstacles[i].getAngle() + 45) % 360));
-								setCornerCoordinates(stationaryObstacles[i]);
-							}
+							flatRectIntersect = true;
 						}
-						// Checking if the mouse intersects the obstacle when the obstacle is rotated
-						else 
+						
+						// Setting boolean variable to the result of checking if the mouse is in a tilted rectangle
+						if(iObstacle.inRotatedObstacle(mouseX, mouseY)) 
 						{
-							if(stationaryObstacles[i].inRotatedObstacle(mouseX,mouseY) == true)
-							{
-								// Adjust angle of obstacle (add 45 rads to existing angle)
-								stationaryObstacles[i].setAngle(((stationaryObstacles[i].getAngle() + 45) % 360));
-								setCornerCoordinates(stationaryObstacles[i]);
-							}
-						}	
+							tiltedRectIntersect = true;
+						}
+						
+						// Checking if the mouse intersects with the rectangle, whether it is tilted or flat
+						if(flatRectIntersect || tiltedRectIntersect) 
+						{
+							// Updating the angle of the clicked obstacle
+							iObstacle.setAngle(((iObstacle.getAngle() + 45)));	
+							
+							setCornerCoordinates(iObstacle);
+						}
 					}
 				}
 			}
@@ -554,44 +558,49 @@ public class MyAppClass extends JPanel
     public void setCornerCoordinates(Obstacle iObstacle) 
     {
     	// Variable Declaration
-    	double oldX;
-    	double oldY;
-    	double centerX = iObstacle.getCenterX();
-    	double centerY = iObstacle.getCenterY();
-    	double angle = Math.toRadians(iObstacle.getAngle());
+    	double tempX;
+    	double tempY;
+    	double rotatedX;
+    	double rotatedY;
+    	double cX = iObstacle.getCenterX();
+    	double cY = iObstacle.getCenterY();
+    	double angle = Math.toRadians(45);
     	
-    	// Adjusting the top left corner coordinates
+    	// Top Left Corner Adjustment
     	
-    	// Setting the oldX and oldY variables
-    	oldX = iObstacle.getTLCrX();
-    	oldY = iObstacle.getTLCrY();
+    	// Translate the point to origin
+    	tempX = iObstacle.getTLCrX() - cX;
+    	tempY = iObstacle.getTLCrY() - cY;
     	
-    	// Rotating the given point around the rectangle's center
-    	iObstacle.setTLCrX(centerX + ((oldX - centerX)*Math.cos(angle) - ((oldY - centerY)*Math.sin(angle))));
-    	iObstacle.setTLCrY(centerY + ((oldX - centerX)*Math.sin(angle) - ((oldY - centerY)*Math.cos(angle))));
+    	// Apply "rotation" to the point
+    	rotatedX = tempX*Math.cos(angle) - tempY*Math.sin(angle);
+    	rotatedY = tempX*Math.sin(angle) + tempY*Math.cos(angle);
     	
-    	// Adjusting the top right corner coordinates
+    	// Translate back rotated point back, this is the new point!
+    	iObstacle.setTLCrX(rotatedX + cX);
+    	iObstacle.setTLCrY(rotatedY + cY);
     	
-    	oldX = iObstacle.getTRCrX();
-    	oldY = iObstacle.getTRCrY();
+    	// Top Right Corner Adjustment
+    	tempX = iObstacle.getTRCrX() - cX;
+    	tempY = iObstacle.getTRCrY() - cY;
+    	rotatedX = tempX*Math.cos(angle) - tempY*Math.sin(angle);
+    	rotatedY = tempX*Math.sin(angle) + tempY*Math.cos(angle);
+    	iObstacle.setTRCrX(rotatedX + cX);	
+    	iObstacle.setTRCrY(rotatedY + cY);
     	
-    	iObstacle.setTRCrX(centerX + ((oldX - centerX)*Math.cos(angle) - ((oldY - centerY)*Math.sin(angle))));
-    	iObstacle.setTRCrY(centerY + ((oldX - centerX)*Math.sin(angle) - ((oldY - centerY)*Math.cos(angle))));
-    	
-    	// Adjusting the bottom right corner coordinates
-    	
-    	oldX = iObstacle.getBRCrX();
-    	oldY = iObstacle.getBRCrY();
-    	
-    	iObstacle.setBRCrX(centerX + ((oldX - centerX)*Math.cos(angle) - ((oldY - centerY)*Math.sin(angle))));
-    	iObstacle.setBRCrY(centerY + ((oldX - centerX)*Math.sin(angle) - ((oldY - centerY)*Math.cos(angle))));
-    	
-    	// Adjusting the bottom left corner coordinates
-    	
-    	oldX = iObstacle.getBLCrX();
-    	oldY = iObstacle.getBLCrY();
-    	
-    	iObstacle.setBLCrX(centerX + ((oldX - centerX)*Math.cos(angle) - ((oldY - centerY)*Math.sin(angle))));
-    	iObstacle.setBLCrY(centerY + ((oldX - centerX)*Math.sin(angle) - ((oldY - centerY)*Math.cos(angle))));
+    	// Bottom Right Corner Adjustment
+    	tempX = iObstacle.getBRCrX() - cX;
+    	tempY = iObstacle.getBRCrY() - cY;
+    	rotatedX = tempX*Math.cos(angle) - tempY*Math.sin(angle);
+    	rotatedY = tempX*Math.sin(angle) + tempY*Math.cos(angle);
+    	iObstacle.setBRCrX(rotatedX + cX);
+    	iObstacle.setBRCrY(rotatedY + cY);
+    	// Bottom Left Corner Adjustment
+    	tempX = iObstacle.getBLCrX() - cX;
+    	tempY = iObstacle.getBLCrY() - cY;
+    	rotatedX = tempX*Math.cos(angle) - tempY*Math.sin(angle);
+    	rotatedY = tempX*Math.sin(angle) + tempY*Math.cos(angle);
+    	iObstacle.setBLCrX(rotatedX + cX);
+    	iObstacle.setBLCrY(rotatedY + cY);
     }
 }
