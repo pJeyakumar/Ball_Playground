@@ -180,14 +180,15 @@ public class Obstacle
 		
 		double sumAreas = Area1 + Area2 + Area3 + Area4;
 		
-		if(sumAreas > (this.getWidth() * this.getLength())) 
+		if(sumAreas <= (this.getWidth() * this.getLength() + 0.1)) 
 		{
-			return false;
+			System.out.println(sumAreas);
+			return true;
 		}
 		else 
 		{
-			return true;
+			//System.out.println(sumAreas);
+			return false;
 		}
-	
 	}
 }
