@@ -229,14 +229,14 @@ public class MyAppClass extends JPanel
 					ballObstacle[0] = new Ball(mouseX, mouseY, 10, ball_type);		
 				}
 			}
-			else if (intObstacleType == 0)
+			/*else if (intObstacleType == 0)
 			{
 				System.out.println(mouseX + " " + mouseY);
 				System.out.println(stationaryObstacles[0].getTLCrX() + " " + stationaryObstacles[0].getTLCrY() + " TL");
 				System.out.println(stationaryObstacles[0].getTRCrX() + " " + stationaryObstacles[0].getTRCrY() + " TR");
 				System.out.println(stationaryObstacles[0].getBLCrX() + " " + stationaryObstacles[0].getBLCrY() + " BL");
 				System.out.println(stationaryObstacles[0].getBRCrX() + " " + stationaryObstacles[0].getBRCrY() + " BR");
-			}
+			}*/
     	}
     	
     	public void mouseClicked(MouseEvent e) {
@@ -309,12 +309,12 @@ public class MyAppClass extends JPanel
     	//Check if ball hits left or right wall
     	if (b.getX()-b.getRadius() < 0 || b.getX() > screenWidth - b.getRadius())
     	{
-    		b.setVelx(b.getVelx() * (-1));
+    		b.setVelx(b.getVelx() * b.getBounce());
     	}
     	//Check if ball hits bottom or top wall
     	if (b.getY() - b.getRadius() < 0 || b.getY() > 600 - b.getRadius())
     	{
-    		b.setVely(b.getVely() * (-1));
+    		b.setVely(b.getVely() * b.getBounce());
     	}    	
     }
     //Check if ball intersects with an obstacle
@@ -363,19 +363,19 @@ public class MyAppClass extends JPanel
     				{
 	    				if (b.getX() < o[i].getX()) //left edge
 	    		    	{
-	    					b.setVelx(b.getVelx() * (-1));
+	    					b.setVelx(b.getVelx() * b.getBounce());
 	    		    	}
 	    		    	else if (b.getX() > o[i].getX() + 150) //right edge
 	    		    	{
-	    		    		b.setVelx(b.getVelx() * (-1));
+	    		    		b.setVelx(b.getVelx() * b.getBounce());
 	    		    	}
 	    		    	if (b.getY()  < o[i].getY()) //top edge
 	    		    	{
-	    		    		b.setVely(b.getVely() * (-1));
+	    		    		b.setVely(b.getVely() * b.getBounce());
 	    		    	}
 	    		    	else if (b.getY() > o[i].getY() + 50)//bottom edge
 	    		    	{
-	    		    		b.setVely(b.getVely() * (-1));
+	    		    		b.setVely(b.getVely() * b.getBounce());
 	    		    	}
     				}
     				//Titled obstacle bounce behaviour

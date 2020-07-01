@@ -22,7 +22,7 @@ public class Ball {
 		//Bouncy Ball
 		if (ball_type == 0)
 		{
-			this.bounce = -1.5;
+			this.bounce = -1.25;
 		}
 		else if(ball_type == 1)
 		{
@@ -30,7 +30,7 @@ public class Ball {
 		}
 		else
 		{
-			this.bounce = -0.8;
+			this.bounce = -0.85;
 		}
 		this.radius = radius;
 	}
@@ -88,5 +88,10 @@ public class Ball {
 	public void setVely(double vely)
 	{
 		this.vely = vely;
+	}
+	
+	public double getBounce()
+	{
+		return bounce;
 	}
 }
