@@ -4,13 +4,14 @@ public class Ball {
 	private double x;
 	private double y;
 	private double radius;
+	private double bounce;
 	private double velx;
 	private double vely;
 	private double gravityY;
 	private double accleration;
 	
 	//Constructor
-	Ball(double x, double y, double radius)
+	Ball(double x, double y, double radius, int ball_type)
 	{
 		this.x = x;
 		this.y = y;
@@ -18,6 +19,19 @@ public class Ball {
 		this.vely = 0.0;
 		this.gravityY = 0.0;
 		this.accleration = 0.0004;
+		//Bouncy Ball
+		if (ball_type == 0)
+		{
+			this.bounce = -1.5;
+		}
+		else if(ball_type == 1)
+		{
+			this.bounce = -1.0;
+		}
+		else
+		{
+			this.bounce = -0.8;
+		}
 		this.radius = radius;
 	}
 	// Returning X Coordinate
@@ -65,11 +79,6 @@ public class Ball {
 	{
 		this.y = y;
 	}	
-	//Set y velocity with gravity
-	public void setGravityY(double y)
-	{
-		this.gravityY = y;
-	}
 	//Set the x velocity of ball
 	public void setVelx(double velx)
 	{

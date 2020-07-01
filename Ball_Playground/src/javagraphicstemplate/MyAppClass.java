@@ -32,8 +32,8 @@ public class MyAppClass extends JPanel
     int intScreen = 0;
     
     // Mouse Variables
-    int mouseX;
-    int mouseY;
+    double mouseX;
+    double mouseY;
     
     // Obstacle Object Variables
     int intObstacleType = 0;
@@ -41,6 +41,7 @@ public class MyAppClass extends JPanel
     int intObstacleCounter = 0;
     Ball[] ballObstacle = new Ball[1]; // Array holding the ball obstacle, MAX 1 at all times
     boolean gravity = false; 
+    int ball_type = 0;
     
     public class MyKeyListener implements KeyListener
     {
@@ -107,6 +108,7 @@ public class MyAppClass extends JPanel
     					stationaryObstacles[i] = null;
     				}
     			}
+    			//adding and removing gravity effect
     			else if (e.getKeyCode() == 'G')
     			{
     				if (!gravity)
@@ -117,6 +119,20 @@ public class MyAppClass extends JPanel
     				{
     					gravity = false;
     				}
+    			}
+    			//changing ball type
+    			else if (e.getKeyCode() == 'C')
+    			{
+    				if (ballObstacle[0] == null)
+    					{
+		    				if (ball_type < 2)
+		    				{
+		    					ball_type++;
+		    				}
+		    				else {
+		    					ball_type = 0;
+		    				}
+    					}
     			}
     		}
     		// Options on the Instruction Screen
@@ -210,7 +226,7 @@ public class MyAppClass extends JPanel
 			{
 				if (ballObstacle[0] == null)
 				{
-					ballObstacle[0] = new Ball(mouseX, mouseY, 10);		
+					ballObstacle[0] = new Ball(mouseX, mouseY, 10, ball_type);		
 				}
 			}
 			else if (intObstacleType == 0)
@@ -340,7 +356,7 @@ public class MyAppClass extends JPanel
     	{
     		if (o[i] != null)
     		{
-    			if (o[i].inRotatedObstacle(b.getX(), b.getY()))
+    			if (o[i].inRotatedObstacle(b.getX(), b.getY())|| intersects(b, o[i]))
     			{
     				//Untilted obstacle bounce behaviour
     				if (o[i].getAngle() == 0 || o[i].getAngle() == 180)
@@ -365,7 +381,7 @@ public class MyAppClass extends JPanel
     				//Titled obstacle bounce behaviour
     				else
     				{
-    					System.out.println("hit");    					
+    					 					
     				}
     			}
     		}
@@ -384,6 +400,18 @@ public class MyAppClass extends JPanel
 	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 635);
 	    		me.drawString("Press 2 to Tilt Rectangle", 0, 660);
 	    		me.drawString("Press B to Equip Ball", 0, 685);
+	    		if (ball_type == 0)
+	    		{
+	    			me.drawString("(Bouncy Ball)", 160, 685);
+	    		}
+	    		else if (ball_type == 1)
+	    		{
+	    			me.drawString("(Basketball)", 160, 685);
+	    		}
+	    		else
+	    		{
+	    			me.drawString("(Bowling Ball)", 160, 685);
+	    		}
 	    		me.drawString("Press I to go to Instruction Menu", 536, 630);
 	    		me.drawString("Press G for gravity", 536, 660);
 	    		me.drawString("Press R to Reset the Screen", 536, 690);	    
@@ -412,6 +440,7 @@ public class MyAppClass extends JPanel
 		    		me.setColor(Color.green);
 		    		me.setFont(new Font("Serif",Font.BOLD,24));
 		    		me.drawString("Ball Object EQUIPPED", 230, 40);
+		    		me.drawString("Press C to change ball type", 230, 60);
 		    		me.setColor(Color.black);
 		    	}
 		    	
@@ -566,7 +595,7 @@ public class MyAppClass extends JPanel
     	// Top Left Corner Adjustment
     	
     	// Translate the point to origin
-    	tempX = iObstacle.getTLCrX() - cX;
+    	tempX = iObstacle.getTLCrX() - cX;gg
     	tempY = iObstacle.getTLCrY() - cY;
     	
     	// Apply "rotation" to the point
