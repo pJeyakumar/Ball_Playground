@@ -168,6 +168,10 @@ public class Obstacle
 	{
 		return this.topLeftCornerX;
 	}
+	public int getSide() 
+	{
+		return this.obstacleSide;
+	}
 	public boolean inRotatedObstacle(double pX, double pY) 
 	{
 		// Triangle APB
