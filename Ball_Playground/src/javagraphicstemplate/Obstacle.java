@@ -19,6 +19,7 @@ public class Obstacle
 	private double botLeftCornerX;
 	private double botRightCornerY;
 	private double botRightCornerX;
+	private int obstacleSide; // 1 for left, 2 for top, 3 for right, 4 for bottom
 	
 	// Constructor 
 	Obstacle(double x, double y, boolean isRound, int angle)
