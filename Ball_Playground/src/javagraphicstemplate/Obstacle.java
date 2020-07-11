@@ -191,4 +191,161 @@ public class Obstacle
 			return false;
 		}
 	}
+		public void findSide(double bX, double bY) 
+	{
+		double dblAngle = this.getAngle();
+		
+		if(dblAngle == 0) 
+		{
+			if(bY > this.getTLCrY() && bY < this.getBLCrY() && bX < this.getTLCrX()) 
+			{
+				obstacleSide = 1;
+			}
+			else if(bX > this.getTLCrX() && bX < this.getTRCrX() && bY < this.getTLCrY()) 
+			{
+				obstacleSide = 2;
+			}
+			else if(bY > this.getTRCrY() && bY < this.getBRCrY() && bX > this.getTRCrX()) 
+			{
+				obstacleSide = 3;
+			}
+			else if (bX > this.getBLCrX() && bX < this.getBRCrX() && bY > this.getBLCrY()) 
+			{
+				obstacleSide = 4;
+			}
+		}
+		else if(dblAngle == 45) 
+		{
+			if(bX < this.getTLCrX() && bY < this.getBLCrY()) 
+			{
+				obstacleSide = 1;
+			}
+			else if(bX > this.getTLCrX() && bY < this.getTRCrY()) 
+			{
+				obstacleSide = 2;
+			}
+			else if(bX > this.getBRCrX() && bY > this.getTRCrY()) 
+			{
+				obstacleSide = 3;
+			}
+			else if(bX < this.getBRCrX() && bY > this.getBLCrY()) 
+			{
+				obstacleSide = 4;
+			}
+		}
+		else if(dblAngle == 90)
+		{
+			if(bY > this.getBLCrY() && bY < this.getBRCrY() && bX < this.getBLCrX()) 
+			{
+				obstacleSide = 1;
+			}
+			else if(bX > this.getBLCrX() && bX < this.getTRCrX() && bY < this.getTLCrY()) 
+			{
+				obstacleSide = 2;
+			}
+			else if(bY > this.getTLCrY() && bY < this.getBRCrY() && bX > this.getTLCrX()) 
+			{
+				obstacleSide = 3;
+			}
+			else if(bX > this.getBRCrX() && bX < this.getTLCrX() && bY > this.getTRCrY()) 
+			{
+				obstacleSide = 4;
+			}
+		}
+		else if(dblAngle == 135) 
+		{
+			if(bX < this.getTRCrX() && bY > this.getBRCrY()) 
+			{
+				obstacleSide = 1;
+			}
+			else if(bX < this.getBLCrX() && bY < this.getBRCrY()) 
+			{
+				obstacleSide = 2;
+			}
+			else if(bX > this.getBLCrX() && bY < this.getTLCrY()) 
+			{
+				obstacleSide = 3;
+			}
+			else if(bX > this.getTRCrX() && bY > this.getTLCrY()) 
+			{
+				obstacleSide = 4;
+			}
+		}
+		if(dblAngle == 180) 
+		{
+			if(bY > this.getBRCrY() && bY < this.getTRCrY() && bX < this.getBRCrX()) 
+			{
+				obstacleSide = 1;
+			}
+			else if(bX > this.getBRCrX() && bX < this.getBLCrX() && bY < this.getBRCrY()) 
+			{
+				obstacleSide = 2;
+			}
+			else if(bY > this.getBLCrY() && bY < this.getTLCrY() && bX > this.getBLCrX()) 
+			{
+				obstacleSide = 3;
+			}
+			else if (bX > this.getTRCrX() && bX < this.getTLCrX() && bY > this.getTRCrY()) 
+			{
+				obstacleSide = 4;
+			}
+		}
+		else if(dblAngle == 225) 
+		{
+			if(bX < this.getBRCrX() && bY < this.getTRCrY()) 
+			{
+				obstacleSide = 1;
+			}
+			else if(bX > this.getBRCrX() && bY < this.getBLCrY()) 
+			{
+				obstacleSide = 2;
+			}
+			else if(bX > this.getTLCrX() && bY > this.getBLCrY()) 
+			{
+				obstacleSide = 3;
+			}
+			else if(bX < this.getTLCrX() && bY > this.getTRCrY()) 
+			{
+				obstacleSide = 4;
+			}
+		}
+		else if(dblAngle == 270)
+		{
+			if(bY > this.getTRCrY() && bY < this.getTLCrY() && bX < this.getTRCrX()) 
+			{
+				obstacleSide = 1;
+			}
+			else if(bX > this.getTRCrX() && bX < this.getBRCrX() && bY < this.getTRCrY()) 
+			{
+				obstacleSide = 2;
+			}
+			else if(bY > this.getBRCrY() && bY < this.getBLCrY() && bX > this.getBRCrX()) 
+			{
+				obstacleSide = 3;
+			}
+			else if(bX > this.getTLCrX() && bX < this.getBLCrX() && bY > this.getTLCrY()) 
+			{
+				obstacleSide = 4;
+			}
+		}
+		else if(dblAngle == 315) 
+		{
+			if(bX < this.getBLCrX() && bY > this.getTLCrY()) 
+			{
+				obstacleSide = 1;
+			}
+			else if(bX < this.getTRCrX() && bY < this.getTLCrY()) 
+			{
+				obstacleSide = 2;
+			}
+			else if(bX > this.getTRCrX() && bY < this.getBRCrY()) 
+			{
+				obstacleSide = 3;
+			}
+			else if(bX > this.getBLCrX() && bY > this.getBRCrY()) 
+			{
+				obstacleSide = 4;
+			}
+		}
+	}
 }
