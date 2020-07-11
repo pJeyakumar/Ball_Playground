@@ -81,7 +81,11 @@ public class MyAppClass extends JPanel
     			{
     				intScreen = 1;
     			}
-    			
+			
+    			else if(e.getKeyCode() == 'T') 
+    			{
+    				System.out.println(stationaryObstacles[0].getSide());
+    			}
     			// Resetting Screen
     			else if(e.getKeyCode() == 'R') 
     			{
@@ -514,7 +518,9 @@ public class MyAppClass extends JPanel
 		    				// Drawing our transformed object
 		    				g2d.fill(transformed);
 		    			}
-		    		}
+					if(ballObstacle[0] != null)
+		    				stationaryObstacles[i].findSide(ballObstacle[0].getX(), ballObstacle[0].getY());
+		    		}	
 		    	}
 	    	}
 	    	
