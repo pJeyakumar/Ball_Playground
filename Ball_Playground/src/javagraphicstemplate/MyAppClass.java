@@ -520,6 +520,183 @@ public class MyAppClass extends JPanel
 		    			}
 					if(ballObstacle[0] != null)
 		    				stationaryObstacles[i].findSide(ballObstacle[0].getX(), ballObstacle[0].getY());
+							double obstacleAngle = stationaryObstacles[i].getAngle();
+							g2d.setColor(Color.red);
+							g2d.setStroke(new BasicStroke(3));
+							if(stationaryObstacles[i].getSide() == 1)
+							{
+								if (obstacleAngle == 0) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()));
+
+								}
+								else if (obstacleAngle == 45)
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()), (int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()));
+
+								}
+								else if (obstacleAngle == 90) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 135) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 180) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 225) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 270) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()));
+
+								}
+								else if (obstacleAngle == 315) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()));
+
+								}
+								
+							}
+							else if(stationaryObstacles[i].getSide() == 2)
+							{
+								if (obstacleAngle == 0) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()));
+
+								}
+								else if (obstacleAngle == 45)
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()));
+
+								}
+								else if (obstacleAngle == 90) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()));
+
+								}
+								else if (obstacleAngle == 135) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 180) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 225) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 270) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 315) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()));
+
+								}
+							}
+							else if(stationaryObstacles[i].getSide() == 3)
+							{
+								if (obstacleAngle == 0) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 45)
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 90) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()));
+
+								}
+								else if (obstacleAngle == 135) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()));
+
+								}
+								else if (obstacleAngle == 180) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()));
+
+								}
+								else if (obstacleAngle == 225) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()));
+
+								}
+								else if (obstacleAngle == 270) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 315) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+							}
+							else if(stationaryObstacles[i].getSide() == 4)
+							{
+								if (obstacleAngle == 0) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 45)
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+								else if (obstacleAngle == 90) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+	
+								}
+								else if (obstacleAngle == 135) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()), (int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()));
+
+								}
+								else if (obstacleAngle == 180) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()));
+
+								}
+								else if (obstacleAngle == 225) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getTRCrX()), (int)(stationaryObstacles[i].getTRCrY()));
+
+								}
+								else if (obstacleAngle == 270) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getTLCrX()), (int)(stationaryObstacles[i].getTLCrY()), (int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()));
+
+								}
+								else if (obstacleAngle == 315) 
+								{
+									g2d.drawLine((int)(stationaryObstacles[i].getBLCrX()), (int)(stationaryObstacles[i].getBLCrY()), (int)(stationaryObstacles[i].getBRCrX()), (int)(stationaryObstacles[i].getBRCrY()));
+
+								}
+							}
+							g2d.setColor(Color.black);
 		    		}	
 		    	}
 	    	}
