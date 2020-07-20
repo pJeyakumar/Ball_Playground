@@ -421,15 +421,6 @@ public class MyAppClass extends JPanel
 	    		me.drawString("Press R to Reset the Screen", 536, 690);	    
 	    		
 		    	// Notification that Flat Obstacle is selected
-		    	if(intObstacleType == 1) 
-		    	{
-		    		me.setColor(Color.blue);
-		    		me.setFont(new Font("Serif",Font.BOLD,24));
-		    		me.drawString("Flat Obstacle EQUIPPED", 230, 40);
-		    		me.setColor(Color.black);
-		    	}
-		    	
-		    	// Notification that Tilting mode is selected
 		    	else if(intObstacleType == 2) 
 		    	{
 		    		me.setColor(Color.red);
@@ -443,7 +434,7 @@ public class MyAppClass extends JPanel
 		    	{
 		    		me.setColor(Color.green);
 		    		me.setFont(new Font("Serif",Font.BOLD,24));
-		    		me.drawString("Ball Object EQUIPPED", 230, 40);
+		    		me.drawString("Ball Object EQUIPPED", 240, 40);
 		    		me.drawString("Press C to change ball type", 230, 60);
 		    		me.setColor(Color.black);
 		    	}
@@ -459,9 +450,9 @@ public class MyAppClass extends JPanel
 		    	// Notification for gravity 
 		    	if (gravity)
 		    	{
-		    		me.setColor(Color.magenta);
+		    		me.setColor(Color.orange);
 		    		me.setFont(new Font("Serif",Font.BOLD,24));
-		    		me.drawString("Gravity Activated", 200, 20);
+		    		me.drawString("Gravity Activated", 270, 17);
 		    		me.setColor(Color.black);
 		    	}
 		    	
