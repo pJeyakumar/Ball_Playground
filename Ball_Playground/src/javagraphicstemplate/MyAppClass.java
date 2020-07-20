@@ -707,18 +707,41 @@ public class MyAppClass extends JPanel
 	    		// The Obstacle we will be using as an example
 	    		Obstacle iObstacle = new Obstacle(60,100,false,0);
 	    		
-	    		// Displaying the FLAT Version of the Obstacle we declared
+	    			    		// Displaying the FLAT Version of the Obstacle we declared
 	    		me.setColor(Color.white);
 	    		me.setFont(new Font("Serif", Font.BOLD, 16));
-	    		me.drawString("Here is an example of the DEFAULT obstacle", 60, 80);
+	    		me.drawString("DEFAULT Stationary Obstacle:", 60, 40);
+	    		me.drawString("To place a flat obstacle, press 1 to equip flat obstacle mode, and on mouse click an obstacle will be placed", 60, 120);
+	    		me.drawString("where the mouse cursor is", 60, 140);
 	    		me.setColor(Color.black);
-	    		Rectangle2D rect = new Rectangle2D.Double(iObstacle.getX(), iObstacle.getY(), 150, 50);
+	    		Rectangle2D rect = new Rectangle2D.Double(iObstacle.getX(), 50, 150, 50);
 	    		g2d.fill(rect);
 	    		
 	    		// Displaying the various ANGLES of the Obstacle we declared
 	    		me.setColor(Color.white);
 	    		me.setFont(new Font("Serif", Font.BOLD, 16));
-	    		me.drawString("Here are the ANGLED obstacles that can be made", 60, 200);
+	    		me.drawString("Here are the ANGLED obstacles that can be made:", 60, 215);
+	    		me.drawString("To place an angled obstacle, first place a flat obstacle, switch to the tilting mode, and click on the flat", 60, 425);
+	    		me.drawString("obstacle to change it's angle by 45", 60, 445);
+	    		me.setColor(Color.black);
+	    		
+	    		// Explanation of Buttons
+	    		me.setColor(Color.blue);
+	    		me.drawString("Flat Obstacle EQUIPPED", 60, 500);
+	    		me.setColor(Color.white);
+	    		me.drawString("--- On click a flat obstacle will be placed at the mouse cursor.", 250, 500);
+	    		me.setColor(Color.red);
+	    		me.drawString("Tilting Mode ACTIVATED", 60, 525);
+	    		me.setColor(Color.white);
+	    		me.drawString("--- Click an obstacle to increase it's current angle by 45.", 250, 525);
+	    		me.setColor(Color.green);
+	    		me.drawString("Ball Object EQUIPPED", 60, 550);
+	    		me.setColor(Color.white);
+	    		me.drawString("--- On a normal ball object will be placed at the mouse cursor", 250, 550);
+	    		me.setColor(Color.orange);
+	    		me.drawString("Gravity Activated", 60, 575);
+	    		me.setColor(Color.white);
+	    		me.drawString("--- Gravity will now act on the ball", 250, 575);
 	    		me.setColor(Color.black);
 	    		
 	    		// 45 Degrees
