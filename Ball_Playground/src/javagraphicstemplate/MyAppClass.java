@@ -781,18 +781,19 @@ public class MyAppClass extends JPanel
 	    		me.drawString("Flat Obstacle EQUIPPED", 60, 500);
 	    		me.setColor(Color.white);
 	    		me.drawString("--- On click a flat obstacle will be placed at the mouse cursor.", 250, 500);
+	    		me.drawString("--- Click on an existing obstacle to delete it!", 250, 525);
 	    		me.setColor(Color.red);
-	    		me.drawString("Tilting Mode ACTIVATED", 60, 525);
+	    		me.drawString("Tilting Mode ACTIVATED", 60, 550);
 	    		me.setColor(Color.white);
-	    		me.drawString("--- Click an obstacle to increase it's current angle by 45.", 250, 525);
+	    		me.drawString("--- Click an obstacle to increase it's current angle by 45.", 250, 550);
 	    		me.setColor(Color.green);
-	    		me.drawString("Ball Object EQUIPPED", 60, 550);
+	    		me.drawString("Ball Object EQUIPPED", 60, 575);
 	    		me.setColor(Color.white);
-	    		me.drawString("--- On a normal ball object will be placed at the mouse cursor", 250, 550);
+	    		me.drawString("--- On a normal ball object will be placed at the mouse cursor", 250, 575);
 	    		me.setColor(Color.orange);
-	    		me.drawString("Gravity Activated", 60, 575);
+	    		me.drawString("Gravity Activated", 60, 600);
 	    		me.setColor(Color.white);
-	    		me.drawString("--- Gravity will now act on the ball", 250, 575);
+	    		me.drawString("--- Gravity will now act on the ball", 250, 600);
 	    		me.setColor(Color.black);
 	    		
 	    		// 45 Degrees
