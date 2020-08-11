@@ -444,11 +444,11 @@ public class MyAppClass extends JPanel
 	    		me.drawString("Press 1 to Equip Flat Rectangle", 0, 635);
 	    		me.drawString("Press 2 to Tilt Rectangle", 0, 660);
 	    		me.drawString("Press B to Equip Ball", 0, 685);
-	    		if (ball_type == 0)
+	    		if (ball_type == 1)
 	    		{
 	    			me.drawString("(Bouncy Ball)", 160, 685);
 	    		}
-	    		else if (ball_type == 1)
+	    		else if (ball_type == 0)
 	    		{
 	    			me.drawString("(Basketball)", 160, 685);
 	    		}

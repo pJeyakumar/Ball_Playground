@@ -15,18 +15,18 @@ public class Ball {
 	{
 		this.x = x;
 		this.y = y;
-		this.velx = 0.5;
+		this.velx = 0.8;
 		this.vely = 0.0;
 		this.gravityY = 0.0;
 		this.accleration = 0.0004;
 		//Bouncy Ball
 		if (ball_type == 0)
 		{
-			this.bounce = -1.25;
+			this.bounce = -1.0;
 		}
 		else if(ball_type == 1)
 		{
-			this.bounce = -1.0;
+			this.bounce = -1.25;
 		}
 		else
 		{
@@ -89,7 +89,7 @@ public class Ball {
 	{
 		this.vely = vely;
 	}
-	
+	//Get the elasticity value of the ball
 	public double getBounce()
 	{
 		return bounce;
