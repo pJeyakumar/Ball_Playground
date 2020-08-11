@@ -392,7 +392,24 @@ public class MyAppClass extends JPanel
     		return true;
     	}
     	return false; 	   
-    } 
+    }
+    //Function to rotate to calculated the "rotated" velocities
+    public double[] rotateForward(double angle, double velx, double vely)
+    {
+    	double velx_ = Math.cos(velx) + Math.sin(vely);
+    	double vely_ = -Math.sin(velx) + Math.cos(vely);
+    	
+    	double[] rotatedVel = {velx_, vely_};
+    	return rotatedVel;
+    }
+    //Function to rotate velocity values back to the regular axis
+    public double[] rotateBackward(double angle, double velx_, double vely_)
+    {
+    	double velx = Math.cos(velx_) - Math.sin(velx_);
+    	double vely = Math.sin(vely_) + Math.cos(vely_);
+    	double[] rotatedVelBack = {velx, vely};
+    	return rotatedVelBack;
+    }
     //Check for collisions with obstacles
     public void checkObstacles(Ball b, Obstacle[] o)
     {
@@ -403,7 +420,7 @@ public class MyAppClass extends JPanel
     			if (o[i].inRotatedObstacle(b.getX(), b.getY())|| intersects(b, o[i]))
     			{
     				//Untilted obstacle bounce behaviour
-    				if (o[i].getAngle() == 0 || o[i].getAngle() == 180)
+    				if (o[i].getAngle() == 0 || o[i].getAngle() == 180 || o[i].getAngle() == 90)
     				{
 	    				if (b.getX() < o[i].getX()) //left edge
 	    		    	{
@@ -421,11 +438,24 @@ public class MyAppClass extends JPanel
 	    		    	{
 	    		    		b.setVely(b.getVely() * b.getBounce());
 	    		    	}
-    				}
-    				//Titled obstacle bounce behaviour
+    				}    				
     				else
     				{
-    					 					
+    					//rotate the velocity values to align with obstacle 
+    					 double[] rotatedVel = rotateForward(o[i].getAngle(), b.getVelx(), b.getVely());	
+    					 double velx_ = rotatedVel[0];
+    					 double vely_ = rotatedVel[1];
+    					 if (o[i].getSide() == 1 || o[i].getSide() == 3)
+    					 {
+    						 velx_ = velx_ *-1.0;
+    					 }
+    					 else
+    					 {
+    						 vely_ = vely_ * -1.0;
+    					 }
+    					 double[] rotatedVelBack = rotateBackward(o[i].getAngle(), velx_, vely_);
+    					 b.setVelx(rotatedVelBack[0]);
+    					 b.setVely(rotatedVelBack[1]);    					 
     				}
     			}
     		}

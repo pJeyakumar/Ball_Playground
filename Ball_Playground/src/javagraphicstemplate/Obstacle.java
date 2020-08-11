@@ -196,7 +196,8 @@ public class Obstacle
 			return false;
 		}
 	}
-		public void findSide(double bX, double bY) 
+	
+	public void findSide(double bX, double bY) 
 	{
 		double dblAngle = this.getAngle();
 		

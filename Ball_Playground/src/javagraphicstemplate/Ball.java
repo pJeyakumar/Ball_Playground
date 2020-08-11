@@ -15,7 +15,7 @@ public class Ball {
 	{
 		this.x = x;
 		this.y = y;
-		this.velx = 0.8;
+		this.velx = 0.4;
 		this.vely = 0.0;
 		this.gravityY = 0.0;
 		this.accleration = 0.0004;
