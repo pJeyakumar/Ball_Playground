@@ -284,7 +284,7 @@ public class MyAppClass extends JPanel
     	}
     	
     	public void mouseClicked(MouseEvent e) {
-    	}
+    	}b
     	public void mouseEntered(MouseEvent e) {
     		
     	}
@@ -396,8 +396,8 @@ public class MyAppClass extends JPanel
     //Function to rotate to calculated the "rotated" velocities
     public double[] rotateForward(double angle, double velx, double vely)
     {
-    	double velx_ = Math.cos(velx) + Math.sin(vely);
-    	double vely_ = -Math.sin(velx) + Math.cos(vely);
+    	double velx_ = Math.cos(angle) * velx + Math.sin(angle) * vely;
+    	double vely_ = -Math.sin(angle) * velx + Math.cos(angle) * vely;
     	
     	double[] rotatedVel = {velx_, vely_};
     	return rotatedVel;
@@ -405,8 +405,8 @@ public class MyAppClass extends JPanel
     //Function to rotate velocity values back to the regular axis
     public double[] rotateBackward(double angle, double velx_, double vely_)
     {
-    	double velx = Math.cos(velx_) - Math.sin(velx_);
-    	double vely = Math.sin(vely_) + Math.cos(vely_);
+    	double velx = Math.cos(angle) * velx_ - Math.sin(angle) * vely_;
+    	double vely = Math.sin(angle) * velx_ + Math.cos(angle) * vely_;
     	double[] rotatedVelBack = {velx, vely};
     	return rotatedVelBack;
     }
@@ -417,24 +417,16 @@ public class MyAppClass extends JPanel
     	{
     		if (o[i] != null)
     		{
-    			if (o[i].inRotatedObstacle(b.getX(), b.getY())|| intersects(b, o[i]))
+    			if (o[i].inRotatedObstacle(b.getX(), b.getY()))
     			{
     				//Untilted obstacle bounce behaviour
-    				if (o[i].getAngle() == 0 || o[i].getAngle() == 180 || o[i].getAngle() == 90)
+    				if (o[i].getAngle() == 0 || o[i].getAngle() == 180)
     				{
-	    				if (b.getX() < o[i].getX()) //left edge
+	    				if (o[i].getSide() == 1 || o[i].getSide() == 3) //left and right edge
 	    		    	{
 	    					b.setVelx(b.getVelx() * b.getBounce());
 	    		    	}
-	    		    	else if (b.getX() > o[i].getX() + 150) //right edge
-	    		    	{
-	    		    		b.setVelx(b.getVelx() * b.getBounce());
-	    		    	}
-	    		    	if (b.getY()  < o[i].getY()) //top edge
-	    		    	{
-	    		    		b.setVely(b.getVely() * b.getBounce());
-	    		    	}
-	    		    	else if (b.getY() > o[i].getY() + 50)//bottom edge
+	    		    	else //top and bottom edge
 	    		    	{
 	    		    		b.setVely(b.getVely() * b.getBounce());
 	    		    	}
@@ -445,17 +437,19 @@ public class MyAppClass extends JPanel
     					 double[] rotatedVel = rotateForward(o[i].getAngle(), b.getVelx(), b.getVely());	
     					 double velx_ = rotatedVel[0];
     					 double vely_ = rotatedVel[1];
+    					 System.out.println(velx_ + ", " + vely_);
     					 if (o[i].getSide() == 1 || o[i].getSide() == 3)
     					 {
-    						 velx_ = velx_ *-1.0;
+    						 velx_ = velx_ * b.getBounce();
     					 }
     					 else
     					 {
-    						 vely_ = vely_ * -1.0;
+    						 vely_ = vely_ * b.getBounce();
     					 }
     					 double[] rotatedVelBack = rotateBackward(o[i].getAngle(), velx_, vely_);
     					 b.setVelx(rotatedVelBack[0]);
-    					 b.setVely(rotatedVelBack[1]);    					 
+    					 b.setVely(rotatedVelBack[1]);   
+    					 System.out.println(rotatedVelBack[0] + ", " + rotatedVelBack[1]);
     				}
     			}
     		}
