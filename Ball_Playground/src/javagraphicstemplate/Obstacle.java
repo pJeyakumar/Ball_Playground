@@ -187,7 +187,6 @@ public class Obstacle
 		
 		if(sumAreas <= (this.getWidth() * this.getLength() + 0.1)) 
 		{
-			System.out.println(sumAreas);
 			return true;
 		}
 		else 
