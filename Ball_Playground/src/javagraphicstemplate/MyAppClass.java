@@ -14,7 +14,6 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import sun.audio.*;
 import java.net.URL;
 import java.util.*;
 
@@ -284,7 +283,7 @@ public class MyAppClass extends JPanel
     	}
     	
     	public void mouseClicked(MouseEvent e) {
-    	}b
+    	}
     	public void mouseEntered(MouseEvent e) {
     		
     	}
@@ -365,7 +364,7 @@ public class MyAppClass extends JPanel
     public boolean intersects(Ball b, Obstacle o)
     {
     	double testX = b.getX();
-    	double testY = b.getY();
+    	double testY = b.getY(); //edit how testX and testY are calculated
     	//Check where circle is closest with respect to rectangle
     	if (b.getX() < o.getX()) //left edge
     	{
@@ -396,8 +395,8 @@ public class MyAppClass extends JPanel
     //Function to rotate to calculated the "rotated" velocities
     public double[] rotateForward(double angle, double velx, double vely)
     {
-    	double velx_ = Math.cos(angle) * velx + Math.sin(angle) * vely;
-    	double vely_ = -Math.sin(angle) * velx + Math.cos(angle) * vely;
+    	double velx_ = Math.cos(Math.toRadians(angle)) * velx + Math.sin(Math.toRadians(angle)) * vely;
+    	double vely_ = -Math.sin(Math.toRadians(angle)) * velx + Math.cos(Math.toRadians(angle)) * vely;
     	
     	double[] rotatedVel = {velx_, vely_};
     	return rotatedVel;
@@ -405,8 +404,8 @@ public class MyAppClass extends JPanel
     //Function to rotate velocity values back to the regular axis
     public double[] rotateBackward(double angle, double velx_, double vely_)
     {
-    	double velx = Math.cos(angle) * velx_ - Math.sin(angle) * vely_;
-    	double vely = Math.sin(angle) * velx_ + Math.cos(angle) * vely_;
+    	double velx = Math.cos(Math.toRadians(angle)) * velx_ - Math.sin(Math.toRadians(angle)) * vely_;
+    	double vely = Math.sin(Math.toRadians(angle)) * velx_ + Math.cos(Math.toRadians(angle)) * vely_;
     	double[] rotatedVelBack = {velx, vely};
     	return rotatedVelBack;
     }
@@ -417,10 +416,10 @@ public class MyAppClass extends JPanel
     	{
     		if (o[i] != null)
     		{
-    			if (o[i].inRotatedObstacle(b.getX(), b.getY()))
+    			if (o[i].inRotatedObstacle(b.getX(), b.getY())) //Get sides first so half of ball doesnt overlap with obstacle
     			{
     				//Untilted obstacle bounce behaviour
-    				if (o[i].getAngle() == 0 || o[i].getAngle() == 180)
+    				if (o[i].getAngle() == 0 || o[i].getAngle() == 180 || o[i].getAngle() == 90 ||o[i].getAngle() == 270)
     				{
 	    				if (o[i].getSide() == 1 || o[i].getSide() == 3) //left and right edge
 	    		    	{
